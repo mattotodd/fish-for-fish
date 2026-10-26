@@ -55,6 +55,10 @@ export const sfx = {
   },
   miss: () => tone(300, 0.3, "triangle", 0.08, 150),
   catch: () => [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.15, "square", 0.07, 0, i * 0.1)),
+  legendary: () => {
+    [523, 659, 784, 1047, 784, 1047, 1319, 1568].forEach((f, i) => tone(f, 0.22, "square", 0.08, 0, i * 0.14));
+    [262, 330, 392, 523].forEach((f, i) => tone(f, 0.5, "triangle", 0.07, 0, 1.2 + i * 0.1));
+  },
   junk: () => tone(200, 0.4, "sawtooth", 0.06, 100),
   coin: () => {
     tone(988, 0.08, "square", 0.06);

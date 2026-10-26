@@ -1,5 +1,5 @@
 import { Scene } from "phaser";
-import { RODS, BAITS, BOAT } from "../gear.js";
+import { RODS, BAITS, BOATS } from "../gear.js";
 import { drawTiles, text, money, bucketValue } from "../draw.js";
 import { save, persist } from "../save.js";
 import { sfx } from "../sound.js";
@@ -64,10 +64,17 @@ export class ShopScene extends Scene {
         act: () => this.spend(bait.price, () => (save.bait[id] += bait.pack), `${bait.pack} ${bait.name}!`),
       });
     }
-    rows.push({
-      label: BOAT.name + (save.boat ? "  (you have it)" : "  (sail to new waters!)"),
-      price: save.boat ? "" : money(BOAT.price),
-      act: () => (save.boat ? "You already have a boat!" : this.spend(BOAT.price, () => (save.boat = true), "You bought a boat! Check the map!")),
+    BOATS.forEach((boat, i) => {
+      const owned = save.boat >= i + 1;
+      rows.push({
+        label: boat.name + (owned ? "  (you have it)" : "  (sail to new waters!)"),
+        price: owned ? "" : money(boat.price),
+        act: () => {
+          if (owned) return "You already have that boat!";
+          if (i > save.boat) return `Buy the ${BOATS[save.boat].name} first.`;
+          return this.spend(boat.price, () => (save.boat = i + 1), `You bought the ${boat.name}! Check the map!`);
+        },
+      });
     });
     return rows;
   }

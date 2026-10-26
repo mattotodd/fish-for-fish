@@ -1,7 +1,7 @@
 import { Scene, Math as PMath } from "phaser";
 import { LEVELS } from "../levels.js";
 import { FISH } from "../fish.js";
-import { RODS, BAITS } from "../gear.js";
+import { RODS, BAITS, BOATS } from "../gear.js";
 import { save, persist } from "../save.js";
 import { sfx } from "../sound.js";
 import { drawTiles, text, money, bucketValue } from "../draw.js";
@@ -27,6 +27,7 @@ export class FishScene extends Scene {
 
   init(data) {
     this.levelId = data.levelId;
+    this.back = data.back ?? { scene: "Map" }; // where ESC takes you
   }
 
   create() {
@@ -34,8 +35,16 @@ export class FishScene extends Scene {
     this.rod = RODS[save.rod];
     this.cameras.main.setBackgroundColor(level.sky);
     drawTiles(this, level.map);
+    this.swimMin = level.dockEnd + 36;
     this.makeSwimmers();
 
+    if (level.onBoat) {
+      const boat = BOATS[save.boat - 1];
+      this.add
+        .image(level.dockEnd + 4, level.waterTop - 8 - boat.deckRow * 4, "boatview_" + (save.boat - 1))
+        .setOrigin(1, 0)
+        .setDepth(4);
+    }
     this.kid = this.add.image(level.kid.x, level.kid.y, "kid").setOrigin(0.5, 1).setDepth(5);
     this.bobber = this.add.image(0, 0, "bobber").setDepth(6).setVisible(false);
     this.underFish = this.add.image(0, 0, "fish_minnow").setDepth(3).setVisible(false);
@@ -70,7 +79,7 @@ export class FishScene extends Scene {
     kb.on("keyup-SPACE", () => this.onSpaceUp());
     kb.on("keydown-DOWN", (e) => !e.repeat && this.onDown());
     kb.on("keydown-UP", (e) => !e.repeat && this.onUp());
-    kb.on("keydown-ESC", () => this.state === "idle" && this.scene.start("Map"));
+    kb.on("keydown-ESC", () => this.state === "idle" && this.scene.start(this.back.scene, this.back.data));
   }
 
   // ---- little helpers ----
@@ -102,7 +111,7 @@ export class FishScene extends Scene {
     for (let i = 0; i < 6; i++) {
       const id = ids[i % ids.length];
       const sprite = this.add
-        .image(rand(420, 780), rand(290, 420), "fish_" + id)
+        .image(rand(this.swimMin, 780), rand(290, 420), "fish_" + id)
         .setDepth(1)
         .setTint(0x000000)
         .setAlpha(0.22);
@@ -186,6 +195,7 @@ export class FishScene extends Scene {
       .map((id) => ({ id, fish: FISH[id] }))
       .filter(({ fish }) => dist >= fish.dist[0] && dist <= fish.dist[1])
       .map(({ id, fish }) => ({ id, weight: fish.rarity * (fish.likes.includes(this.castBaitId) ? 3 : 1) }));
+    if (!pool.length) return this.level.fish[0]; // nothing lives this far out, so something boring bites
     let roll = Math.random() * pool.reduce((sum, p) => sum + p.weight, 0);
     for (const p of pool) {
       roll -= p.weight;
@@ -247,17 +257,57 @@ export class FishScene extends Scene {
     this.underFish.setVisible(false);
     fish.junk ? sfx.junk() : sfx.catch();
     this.showCard(fish, weight, value);
+    if (fish.legendary) this.celebrate(fish);
   }
 
   showCard(fish, weight, value) {
     const c = this.add.container(0, 0).setDepth(20);
     c.add(this.add.rectangle(400, 200, 420, 240, 0x10202e, 0.92).setStrokeStyle(4, 0xffe066));
-    c.add(text(this, 400, 110, fish.junk ? "Yuck!" : "You caught one!", { fontSize: "26px", color: "#ffe066" }).setOrigin(0.5));
+    c.add(text(this, 400, 110, fish.junk ? "Yuck!" : fish.legendary ? "WOW!!!" : "You caught one!", { fontSize: "26px", color: "#ffe066" }).setOrigin(0.5));
     c.add(this.add.image(400, 185, "fish_" + this.hooked).setScale(2.2));
     c.add(text(this, 400, 245, fish.name, { fontSize: "24px" }).setOrigin(0.5));
     c.add(text(this, 400, 275, `${weight} lbs     ${money(value)}`, { fontSize: "18px", color: "#9bff9b" }).setOrigin(0.5));
     this.card = c;
     this.setState("card");
+  }
+
+  // A legendary fish! Flash, fanfare, confetti, and a trophy that you keep even after selling the fish.
+  celebrate(fish) {
+    const firstTime = !save.trophies.includes(this.hooked);
+    if (firstTime) save.trophies.push(this.hooked);
+    persist();
+    sfx.legendary();
+
+    const flash = this.add.rectangle(400, 224, 800, 448, 0xffffff, 0.9).setDepth(30);
+    this.tweens.add({ targets: flash, alpha: 0, duration: 700, onComplete: () => flash.destroy() });
+
+    const colors = [0xffe066, 0xff6b6b, 0x6bcbff, 0x9bff9b, 0xff8fb3];
+    for (let i = 0; i < 90; i++) {
+      const piece = this.add
+        .rectangle(rand(0, 800), rand(-200, -10), 8, 12, colors[i % colors.length])
+        .setDepth(31)
+        .setAngle(rand(0, 360));
+      this.tweens.add({
+        targets: piece,
+        y: 470,
+        x: piece.x + rand(-80, 80),
+        angle: piece.angle + rand(-400, 400),
+        duration: rand(1800, 3200),
+        delay: rand(0, 900),
+        onComplete: () => piece.destroy(),
+      });
+    }
+
+    const banner = text(this, 400, 30, "LEGENDARY CATCH!!!", { fontSize: "40px", color: "#ffe066", strokeThickness: 8 })
+      .setOrigin(0.5)
+      .setDepth(32);
+    this.tweens.add({ targets: banner, scale: 1.15, duration: 350, yoyo: true, repeat: 8 });
+    const note = firstTime ? `NEW TROPHY: ${fish.name}!` : `You caught the ${fish.name} again!`;
+    const sub = text(this, 400, 66, note, { fontSize: "20px", color: "#9bff9b" }).setOrigin(0.5).setDepth(32);
+    this.time.delayedCall(5000, () => {
+      banner.destroy();
+      sub.destroy();
+    });
   }
 
   // ---- every frame ----
@@ -268,8 +318,8 @@ export class FishScene extends Scene {
     this.swimmers.forEach(({ sprite, speed }) => {
       sprite.x += speed * dt;
       sprite.setFlipX(speed > 0);
-      if (sprite.x < 400) sprite.x = 790;
-      if (sprite.x > 790) sprite.x = 400;
+      if (sprite.x < this.swimMin - 20) sprite.x = 790;
+      if (sprite.x > 790) sprite.x = this.swimMin - 20;
     });
 
     const waterTop = this.level.waterTop;

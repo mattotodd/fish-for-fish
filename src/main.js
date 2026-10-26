@@ -4,6 +4,7 @@ import { MenuScene } from "./scenes/MenuScene.js";
 import { MapScene } from "./scenes/MapScene.js";
 import { ShopScene } from "./scenes/ShopScene.js";
 import { FishScene } from "./scenes/FishScene.js";
+import { SailScene } from "./scenes/SailScene.js";
 import { startMusic, toggleMute } from "./sound.js";
 
 // window.game lets you poke at the game from the browser console (try game.scene.getScene('Fish'))
@@ -12,7 +13,7 @@ window.game = new Game({
   scale: { mode: Scale.FIT, width: 800, height: 448, parent: "game" },
   pixelArt: true, // keeps pixel art crisp
   backgroundColor: "#10202e",
-  scene: [BootScene, MenuScene, MapScene, ShopScene, FishScene],
+  scene: [BootScene, MenuScene, MapScene, ShopScene, FishScene, SailScene],
 });
 
 // Browsers only allow sound after you press something, so start the music on the first key.

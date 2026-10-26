@@ -18,4 +18,52 @@ export const BAITS = {
   glowbug: { name: "Glow Bugs", price: 50, pack: 10, biteSpeed: 2.5 },
 };
 
-export const BOAT = { name: "Little Boat", price: 800 };
+//   speed     how fast you drive (pixels per second)
+//   art       side view when you fish from it   deckRow: which row of the art is the deck
+//   topArt    the little boat you drive around on the water map
+// Better boats open bigger water: the Little Boat reaches the pond, the Fishing Boat reaches the lake.
+export const BOATS = [
+  {
+    name: "Little Boat",
+    price: 800,
+    speed: 110,
+    deckRow: 0,
+    art: [
+      "nnnnnnnnnnnnnnnnnnnnnn",
+      ".nnttnnnnnnnnnnnnttnn.",
+      "..mnnnnnnnnnnnnnnnnm..",
+      "...mmmmmmmmmmmmmmmm...",
+    ],
+    topArt: [
+      "..mmmmmmm....",
+      ".mtttttttmm..",
+      "mttttttttttmm",
+      ".mtttttttmm..",
+      "..mmmmmmm....",
+    ],
+  },
+  {
+    name: "Fishing Boat",
+    price: 1500,
+    speed: 150,
+    deckRow: 3,
+    art: [
+      ".....wwwwww..............",
+      ".....wllllw..............",
+      ".....wllllw..............",
+      "bbbbbbbbbbbbbbbbbbbbbbbbbb",
+      ".bwbbbbbbbbbbbbbbbbbbbbwb.",
+      "..bbbbbbbbbbbbbbbbbbbbbb..",
+      "...bbbbbbbbbbbbbbbbbbbb...",
+    ],
+    topArt: [
+      "..bbbbbbbbbbb....",
+      ".bwwwwwwwwwwbb...",
+      "bwwwwllllwwwwwbb.",
+      "bwwwwllllwwwwwwbb",
+      "bwwwwllllwwwwwbb.",
+      ".bwwwwwwwwwwbb...",
+      "..bbbbbbbbbbb....",
+    ],
+  },
+];

@@ -11,6 +11,11 @@ export const TILE_ART = {
   o: ["uuuuuuuu", "uuuvuuuu", "uuuuuuuu", "uuuuuuvu", "uuuuuuuu", "uvuuuuuu", "uuuuuuuu", "uuuuvuuu"],
   O: ["vvvvvvvv", "vvvuvvvv", "vvvvvvvv", "vvvvvvuv", "vvvvvvvv", "vuvvvvvv", "vvvvvvvv", "vvvvuvvv"],
   f: ["gggggggg", "gdggggdg", "gggggggg", "ggggdggg", "gggggggg", "dgggggdg", "gggggggg", "gggdgggg"],
+  R: ["..d..d..", ".dg.dgd.", "..dg.gd.", ".dgd.gdg", "..gdgdg.", "gggggggg", "gdgggdgg", "nnnnnnnn"],
+  P: ["ulluuull", "uggguuuu", "gggdgguu", "uggguuuu", "uuuuuuuu", "uuuuuggu", "uuuuggdg", "uuuuuggu"],
+  K: ["uuuuuuuu", "uuueeuuu", "uueaeeuu", "ueaaeeeu", "ueeeeeeu", "uueeeeuu", "uuuuuuuu", "uuuuuuuu"],
+  M: ["...ww...", "..wwww..", "..eeee..", ".eeeeee.", "eeeeeeee", "eeeeeeee", "eeeeeeee", "eeeeeeee"],
+  T: ["...dd...", "..dddd..", "...dd...", "..dddd..", ".dddddd.", "...mm...", "...mm...", "...mm..."],
   S: ["tttttttt", "ttttstts", "tttttttt", "tttttttt", "tsttttts", "tttttttt", "tttttstt", "tttttttt"],
 };
 
@@ -80,6 +85,26 @@ export const ICON_ART = {
     ".yyykkyyy.",
     ".yyyyyyyy.",
   ],
+  icon_pond: [
+    "...gggggg...",
+    "..gllllllg..",
+    ".glluuuullg.",
+    "gluuuuuuuulg",
+    "gluuuuuuuulg",
+    ".glluuuullg.",
+    "..gllllllg..",
+    "...gggggg...",
+  ],
+  icon_lake: [
+    "..vvvvvvvv..",
+    ".vuuuuuuuuv.",
+    "vuullluuuuuv",
+    "vuuuuuulluuv",
+    "vuuuuuuuuuuv",
+    ".vuuulluuuv.",
+    "..vvvvvvvv..",
+  ],
+  icon_spot: ["..yyyy..", ".y....y.", "y..yy..y", "y..yy..y", ".y....y.", "..yyyy.."],
   bobber: ["..rr..", ".rrrr.", "rrrrrr", "wwwwww", ".wwww.", "..ww.."],
   coin: ["..yyyy..", ".yyooyy.", "yyyoyyyy", "yyyoyyyy", "yyyoyyyy", ".yyooyy.", "..yyyy.."],
 };

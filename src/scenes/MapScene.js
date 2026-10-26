@@ -1,5 +1,5 @@
 import { Scene, Math as PMath } from "phaser";
-import { TILE, WORLD, LEVELS } from "../levels.js";
+import { TILE, WORLD, LEVELS, SAILS } from "../levels.js";
 import { drawTiles, text, money, bucketValue } from "../draw.js";
 import { save } from "../save.js";
 import { sfx } from "../sound.js";
@@ -39,7 +39,7 @@ export class MapScene extends Scene {
       .setOrigin(0.5)
       .setDepth(5);
 
-    this.hud.setText(`${money(save.money)}\nBucket: ${save.fish.length} fish (${money(bucketValue(save))})`);
+    this.hud.setText(`${money(save.money)}\nBucket: ${save.fish.length} fish (${money(bucketValue(save))})\nTrophies: ${save.trophies.length}`);
     this.moveTo(selected);
 
     const kb = this.input.keyboard;
@@ -64,15 +64,17 @@ export class MapScene extends Scene {
 
   enter() {
     const spot = this.spots[selected];
+    const missing =
+      (spot.scene === "Fish" && !LEVELS[spot.level]) || (spot.scene === "Sail" && !SAILS[spot.sail]);
     if (this.isLocked(spot)) {
       sfx.no();
       this.msg.setText(spot.locked);
-    } else if (spot.scene === "Fish" && !LEVELS[spot.level]) {
+    } else if (missing) {
       sfx.no();
       this.msg.setText("Coming soon! (Build it in src/levels.js)");
     } else {
       sfx.select();
-      this.scene.start(spot.scene, { levelId: spot.level });
+      this.scene.start(spot.scene, { levelId: spot.level, sailId: spot.sail });
     }
   }
 }
