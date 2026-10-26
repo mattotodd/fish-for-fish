@@ -16,6 +16,9 @@ export const TILE_ART = {
   K: ["uuuuuuuu", "uuueeuuu", "uueaeeuu", "ueaaeeeu", "ueeeeeeu", "uueeeeuu", "uuuuuuuu", "uuuuuuuu"],
   M: ["...ww...", "..wwww..", "..eeee..", ".eeeeee.", "eeeeeeee", "eeeeeeee", "eeeeeeee", "eeeeeeee"],
   T: ["...dd...", "..dddd..", "...dd...", "..dddd..", ".dddddd.", "...mm...", "...mm...", "...mm..."],
+  A: ["..dgdg..", ".dgdgdg.", "dgd.dgd.", "...mn...", "...mn...", "...mn...", "...nm...", "...nm..."],
+  C: ["uuuuuuuu", "uuuuupuu", "upuupppu", "uppupupu", "upppupuu", "uupppppu", "uuupuupu", "uuuuuuuu"],
+  X: ["...m....", "...mwww.", "...mwwww", "...mwww.", "...m....", "...m.mm.", "mmmmmmmm", "nnnnnnnn"],
   S: ["tttttttt", "ttttstts", "tttttttt", "tttttttt", "tsttttts", "tttttttt", "tttttstt", "tttttttt"],
 };
 
@@ -103,6 +106,16 @@ export const ICON_ART = {
     "vuuuuuuuuuuv",
     ".vuuulluuuv.",
     "..vvvvvvvv..",
+  ],
+  icon_ocean: [
+    "....rr....",
+    "...rwwr...",
+    "...wwww...",
+    "...rrrr...",
+    "...wwww...",
+    "...rrrr...",
+    "..wwwwww..",
+    ".kkkkkkkk.",
   ],
   icon_spot: ["..yyyy..", ".y....y.", "y..yy..y", "y..yy..y", ".y....y.", "..yyyy.."],
   bobber: ["..rr..", ".rrrr.", "rrrrrr", "wwwwww", ".wwww.", "..ww.."],

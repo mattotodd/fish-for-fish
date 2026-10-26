@@ -5,7 +5,7 @@ const NEW_GAME = {
   money: 0,
   rod: 0, // index into RODS
   boat: 0, // 0 = no boat, otherwise how many boats you have bought (index into BOATS + 1)
-  bait: { bread: 0, worm: 0, shrimp: 0, glowbug: 0 }, // bread is unlimited
+  bait: { bread: 0, worm: 0, shrimp: 0, glowbug: 0, squid: 0 }, // bread is unlimited
   selectedBait: "bread",
   fish: [], // the bucket: { id, weight, value }
   trophies: [], // legendary fish you have caught (kept even after you sell them)
@@ -16,7 +16,8 @@ function load() {
     const saved = JSON.parse(localStorage.getItem(KEY));
     if (saved) {
       if (typeof saved.boat === "boolean") saved.boat = saved.boat ? 1 : 0; // old saves
-      return { ...structuredClone(NEW_GAME), ...saved };
+      const fresh = structuredClone(NEW_GAME);
+      return { ...fresh, ...saved, bait: { ...fresh.bait, ...saved.bait } }; // new bait types appear in old saves
     }
   } catch (e) {
     // no save, or the browser blocked it: start fresh

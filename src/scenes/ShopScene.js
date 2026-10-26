@@ -17,7 +17,7 @@ export class ShopScene extends Scene {
     text(this, 400, 36, "THE SHOP", { fontSize: "32px", color: "#ffe066" }).setOrigin(0.5);
     this.moneyText = text(this, 400, 70, "", { fontSize: "18px", color: "#9bff9b" }).setOrigin(0.5);
     this.list = this.add.container(0, 0);
-    this.msg = text(this, 400, 392, "", { fontSize: "16px", color: "#ffe9a8" }).setOrigin(0.5);
+    this.msg = text(this, 400, 404, "", { fontSize: "16px", color: "#ffe9a8" }).setOrigin(0.5);
     text(this, 400, 428, "UP / DOWN: choose     SPACE: buy     ESC: leave", { fontSize: "13px", color: "#ffe9a8" }).setOrigin(0.5);
 
     const kb = this.input.keyboard;
@@ -108,11 +108,11 @@ export class ShopScene extends Scene {
     this.moneyText.setText(`You have ${money(save.money)}`);
     this.msg.setText(message);
     this.items().forEach((row, i) => {
-      const y = 108 + i * 30;
+      const y = 94 + i * 22;
       const on = i === this.cursor;
       const color = on ? "#ffe066" : "#ffffff";
-      this.list.add(text(this, 90, y, (on ? "▶ " : "  ") + row.label, { fontSize: "18px", color }));
-      this.list.add(text(this, 710, y, row.price, { fontSize: "18px", color: on ? "#ffe066" : "#9bff9b" }).setOrigin(1, 0));
+      this.list.add(text(this, 90, y, (on ? "▶ " : "  ") + row.label, { fontSize: "15px", color }));
+      this.list.add(text(this, 710, y, row.price, { fontSize: "15px", color: on ? "#ffe066" : "#9bff9b" }).setOrigin(1, 0));
     });
   }
 }

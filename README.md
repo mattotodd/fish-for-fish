@@ -17,8 +17,18 @@ Run it: `npm install` then `npx vite` and open the address it prints.
 | `src/tiles.js` | Pixel art for blocks, the kid, and map icons |
 | `src/art.js` | The color palette (letter -> color) |
 
-### Add a new fishing spot
-1. Copy the `dock` entry in `LEVELS` (`src/levels.js`), give it a new key like `lake`, and edit its `map` and `fish`.
-2. The world map already has a locked "Sunny Lake" spot whose `level` is `"lake"`. Buy the boat in the shop and it opens.
+### Places
+| Place | You need | Spots |
+| --- | --- | --- |
+| The Old Dock | nothing | the dock |
+| Sunny Pond | Little Boat | Reed Bank, Lily Pads, Middle of the Pond |
+| Big Lake | Fishing Boat | Pine Shallows, Rocky Reef, Deep Water |
+| The Ocean | Powerboat | Coral Reef, Shipwreck, Open Sea, The Deep Trench |
+
+### Add a new fishing spot or place
+1. A fishing view is an entry in `LEVELS` (`src/levels.js`). Copy one, give it a new key, and edit its `map` and `fish`.
+2. A place you drive around is an entry in `SAILS`. Each `spot` points at one of your `LEVELS`.
+3. To put a place on the world map, add it to `WORLD.spots` and choose what unlocks it.
+4. Fish marked `legendary: true` get a big celebration and a trophy.
 
 Saves live in the browser's localStorage. To start over, press N on the title screen.

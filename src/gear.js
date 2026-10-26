@@ -7,6 +7,8 @@ export const RODS = [
   { name: "Bamboo Rod", price: 40, strength: 1.3, reel: 0.26, range: 230, len: 72 },
   { name: "Fiberglass Rod", price: 150, strength: 1.7, reel: 0.32, range: 290, len: 82 },
   { name: "Pro Carbon Rod", price: 400, strength: 2.2, reel: 0.4, range: 350, len: 92 },
+  { name: "Ocean Rod", price: 1500, strength: 2.8, reel: 0.48, range: 400, len: 100 },
+  { name: "Big Game Rod", price: 3500, strength: 3.6, reel: 0.56, range: 440, len: 108 },
 ];
 
 //   biteSpeed  bigger = fish find it faster
@@ -16,12 +18,13 @@ export const BAITS = {
   worm: { name: "Worms", price: 6, pack: 10, biteSpeed: 1.6 },
   shrimp: { name: "Shrimp", price: 20, pack: 10, biteSpeed: 2 },
   glowbug: { name: "Glow Bugs", price: 50, pack: 10, biteSpeed: 2.5 },
+  squid: { name: "Squid", price: 80, pack: 10, biteSpeed: 3 },
 };
 
 //   speed     how fast you drive (pixels per second)
 //   art       side view when you fish from it   deckRow: which row of the art is the deck
 //   topArt    the little boat you drive around on the water map
-// Better boats open bigger water: the Little Boat reaches the pond, the Fishing Boat reaches the lake.
+// Better boats open bigger water: Little Boat = pond, Fishing Boat = lake, Powerboat = ocean.
 export const BOATS = [
   {
     name: "Little Boat",
@@ -64,6 +67,31 @@ export const BOATS = [
       "bwwwwllllwwwwwbb.",
       ".bwwwwwwwwwwbb...",
       "..bbbbbbbbbbb....",
+    ],
+  },
+  {
+    name: "Powerboat",
+    price: 4000,
+    speed: 210,
+    deckRow: 3,
+    art: [
+      "....wwwwwwww................",
+      "....wllllllw................",
+      "....wllllllw................",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      ".wrrrrrrrrrrrrrrrrrrrrrrrrrrw.",
+      "..wwwwwwwwwwwwwwwwwwwwwwwwww..",
+      "...eeeeeeeeeeeeeeeeeeeeeeee...",
+      "....eeeeeeeeeeeeeeeeeeeeee....",
+    ],
+    topArt: [
+      "..wwwwwwwwwwww......",
+      ".wwwwwwwwwwwwwww....",
+      "wwwwlllllwwwwwwwww..",
+      "wrrrlllllwwwwwwwwwww",
+      "wwwwlllllwwwwwwwww..",
+      ".wwwwwwwwwwwwwww....",
+      "..wwwwwwwwwwww......",
     ],
   },
 ];

@@ -2,6 +2,7 @@
 //   .  sky     c  cloud    L  leaves   Y  tree trunk   T  pine tree   M  mountain
 //   G  grass   D  dirt     =  dock     |  dock post    R  reeds
 //   ~  water surface       o  water    O  deep water   P  lily pads    K  rock
+//   A  palm tree    C  coral    X  shipwreck    S  sand
 // The driving maps and the world map use f (flat grass), S (sand), o (water) and K (rock) too.
 
 export const COLS = 25;
@@ -25,6 +26,7 @@ const WATER = [
   "OOOOOOOOOOOOOOOOOOOOOOOOO",
   "OOOOOOOOOOOOOOOOOOOOOOOOO",
 ];
+const DEEP = ["~".repeat(25), ...Array(5).fill("O".repeat(25))];
 // Fishing from a boat: the kid stands on the boat, and casts are measured from its right edge.
 const BOAT_VIEW = { onBoat: true, kid: { x: 274, y: 250 }, dockEnd: 300, waterTop: 256 };
 
@@ -133,6 +135,58 @@ export const LEVELS = {
     ],
     fish: ["trout", "pike", "walleye", "salmon", "sturgeon", "giantsturgeon", "boot"],
   },
+
+  // ---- the ocean (you need the Powerboat) ----
+  ocean_reef: {
+    ...BOAT_VIEW,
+    name: "Coral Reef",
+    sky: 0x7fd8f0,
+    map: [
+      ...SKY,
+      "..A....A.A......A....A...",
+      "SSSSSSSSSSSSSSSSSSSSSSSSS",
+      ...WATER.slice(0, 5),
+      "OOCOOOOCCOOOOCOOOOOCOOOOC",
+    ],
+    fish: ["mackerel", "snapper", "mahi", "treasure", "boot"],
+  },
+  ocean_wreck: {
+    ...BOAT_VIEW,
+    name: "Shipwreck",
+    sky: 0x8aa0b8,
+    map: [
+      ...SKY,
+      ".........................",
+      "..........X......X.......",
+      "~~K~~~~~~~~~~K~~~~~~~~K~~",
+      ...WATER.slice(1),
+    ],
+    fish: ["snapper", "mahi", "tuna", "shark", "treasure", "boot"],
+  },
+  ocean_open: {
+    ...BOAT_VIEW,
+    name: "Open Sea",
+    sky: 0x6fb8e8,
+    map: [
+      ...SKY,
+      ".........................",
+      ".........................",
+      ...WATER,
+    ],
+    fish: ["mackerel", "mahi", "tuna", "swordfish", "boot"],
+  },
+  ocean_trench: {
+    ...BOAT_VIEW,
+    name: "The Deep Trench",
+    sky: 0x4a5a8a,
+    map: [
+      ...SKY,
+      ".........................",
+      ".........................",
+      ...DEEP,
+    ],
+    fish: ["tuna", "mahi", "swordfish", "shark", "giantsquid", "boot"],
+  },
 };
 
 // Driving maps. You steer the boat around on the water (o) and can't cross land (f) or rocks (K).
@@ -190,6 +244,33 @@ export const SAILS = {
       { name: "Deep Water", col: 12, row: 6, level: "lake_deep" },
     ],
   },
+  ocean: {
+    name: "The Ocean",
+    map: [
+      "fffooooooooooooooooSSSSSS",
+      "fffooooooooooooooooSSSSSS",
+      "fffooooooooooooooooSSSSSS",
+      "fffoooooooooKoooooooooSoo",
+      "ffooooooooooooooooooooooo",
+      "ffooKoooooooooooooooooooo",
+      "ffoooooooKooooooKooooooKo",
+      "ffooooooooooooooooooooooo",
+      "ffoooooooooooooooooKooooo",
+      "ffoooKooooooooooooooooooo",
+      "fffoooooooKoooooooooooooo",
+      "fffooooKoooooooKooooooooo",
+      "fffoooooSSSSSoooooooooooo",
+      "fffooooSSSSSSSooooooooooo",
+    ],
+    dock: { col: 1, row: 7 },
+    start: { col: 3, row: 7 },
+    spots: [
+      { name: "Coral Reef", col: 6, row: 3, level: "ocean_reef" },
+      { name: "Shipwreck", col: 13, row: 8, level: "ocean_wreck" },
+      { name: "Open Sea", col: 18, row: 4, level: "ocean_open" },
+      { name: "The Deep Trench", col: 21, row: 11, level: "ocean_trench" },
+    ],
+  },
 };
 
 // The world map. Add a spot here and it shows up!
@@ -206,9 +287,9 @@ export const WORLD = {
     "ooooofffffooooooooooooooo",
     "ooooooffooooooooooooooooo",
     "ooooooooooooooooooSSSSSoo",
-    "oooooooooooooooooSSSSSSSo",
-    "ooooooooooooooooooSSSSSoo",
-    "ooooooooooooooooooooooooo",
+    "ooooooooooSSSooooSSSSSSSo",
+    "oooooooooSSSSSooooSSSSSoo",
+    "ooooooooooSSSoooooooooooo",
   ],
   spots: [
     { id: "shop", name: "The Shop", col: 5, row: 3, icon: "icon_shop", scene: "Shop" },
@@ -234,6 +315,17 @@ export const WORLD = {
       sail: "lake",
       locked: "You need a bigger boat to cross the lake!",
       unlocked: (save) => save.boat >= 2,
+    },
+    {
+      id: "ocean",
+      name: "The Ocean",
+      col: 11,
+      row: 12,
+      icon: "icon_ocean",
+      scene: "Sail",
+      sail: "ocean",
+      locked: "You need a powerboat to go out to sea!",
+      unlocked: (save) => save.boat >= 3,
     },
   ],
 };
