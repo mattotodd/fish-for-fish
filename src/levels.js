@@ -4,6 +4,7 @@
 //   ~  water surface       o  water    O  deep water   P  lily pads    K  rock
 //   A  palm tree    C  coral    X  shipwreck    S  sand
 //   a  sunken column  e  sunken wall  k  kelp  b  broken pillar (the Sunken City)
+//   Q  lava  I  deep lava  E  black rock  q  volcano (Volcano Island)
 //   W  swamp water  V  deep swamp water    Z  cypress tree (z on mud)    B  mud bank    J  mangrove roots
 // The village and the shop insides use 1-4 (roofs) w (wall) d (door) p (path) F (floor) H (wall) N (shelf) U (counter).
 // The driving maps and the world map use f (flat grass), S (sand), o (water) and K (rock) too.
@@ -34,6 +35,7 @@ const SWAMP_WATER = ["W".repeat(25), "W".repeat(25), "W".repeat(25), "V".repeat(
 const DEEP_SWAMP = ["W".repeat(25), ...Array(5).fill("V".repeat(25))];
 // The Sunken City: sky, a few broken pillars on the horizon, then water with ruins on the sea floor.
 const CITY_SKY = [".........................", ".......cc........ccc.....", "......cccc......cc.......", ".........................", "..cc...............cc....", ".ccc..............ccc...."];
+const VOLCANO_SKY = [".........................", ".......cc........ccc.....", ".....qq......qq..........", "....qqqq....qqqq...cc....", "...qqqqqq..qqqqqq..ccc...", "..qqqqqqqqqqqqqqqq......."];
 const DEEP = ["~".repeat(25), ...Array(5).fill("O".repeat(25))];
 // Fishing from a boat: the kid stands on the boat, and casts are measured from its right edge.
 const BOAT_VIEW = { onBoat: true, kid: { x: 274, y: 250 }, dockEnd: 300, waterTop: 256 };
@@ -334,6 +336,75 @@ export const LEVELS = {
     ],
     fish: ["anglerfish", "mantaray", "ghostshark", "goldenidol", "kraken"],
   },
+  // ---- Volcano Island (you need the Lava Hoverboat) ----
+  volcano_shore: {
+    ...BOAT_VIEW,
+    name: "Ember Shore",
+    sky: 0x8a4a3a,
+    map: [
+      ...VOLCANO_SKY,
+      "EEEEEEEEEEEEEEEEEEEEEEEEE",
+      "EEEEEEEEEEEEEEEEEEEEEEEEE",
+      "QQQQQQQQQQQQQQQQQQQQQQQQQ",
+      "QQQQQQQQQQQQQQQQQQQQQQQQQ",
+      "QQQQQQQQQQQQQQQQQQQQQQQQQ",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+    ],
+    fish: ["emberminnow","cindercarp","magmacrab","firesalamander"],
+  },
+  volcano_cove: {
+    ...BOAT_VIEW,
+    name: "Cinder Cove",
+    sky: 0x7a3a30,
+    map: [
+      ...VOLCANO_SKY,
+      "EEEEEEEEEEEEEEEEEEEEEEEEE",
+      "EQEEEEEEQEEEEEQEEEEEEEQEE",
+      "QQQQQQQQQQQQQQQQQQQQQQQQQ",
+      "QQQQQQQQQQQQQQQQQQQQQQQQQ",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+    ],
+    fish: ["cindercarp","magmacrab","firesalamander","lavaeel","moltenturtle"],
+  },
+  volcano_falls: {
+    ...BOAT_VIEW,
+    name: "Magma Falls",
+    sky: 0x6a2a28,
+    map: [
+      ...VOLCANO_SKY,
+      "EEEEEEEEEEEEEEEEEEEEEEEEE",
+      "EEQEEEEEEEQEEEEEEEQEEEEEE",
+      "QQQQQQQQQQQQQQQQQQQQQQQQQ",
+      "QQQQQQQQQQQQQQQQQQQQQQQQQ",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+    ],
+    fish: ["lavaeel","obsidianpike","flameray","moltenturtle","phoenixfish"],
+  },
+  volcano_crater: {
+    ...BOAT_VIEW,
+    name: "Crater Heart",
+    sky: 0x4a1a1a,
+    map: [
+      ...VOLCANO_SKY,
+      "EEEEEEEEEEEEEEEEEEEEEEEEE",
+      "EEEEEEEEEEEEEEEEEEEEEEEEE",
+      "QQQQQQQQQQQQQQQQQQQQQQQQQ",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+      "IIIIIIIIIIIIIIIIIIIIIIIII",
+    ],
+    fish: ["obsidianpike","flameray","moltenturtle","phoenixfish","lavadragon"],
+  },
 };
 
 // Driving maps. You steer the boat around on the water (o) and can't cross land (f) or rocks (K).
@@ -445,6 +516,33 @@ export const SAILS = {
       { name: "Heart of the Swamp", col: 20, row: 11, level: "swamp_heart" },
     ],
   },
+  volcano: {
+    name: "Volcano Island",
+    map: [
+      "EEEEEEEEEEEEEEEEEEEEEEEEE",
+      "EQQQQQQQQEEQQQQQQQQQIQQQE",
+      "EQQEEQQIQQEQQQQQQEEQQQQQE",
+      "EQQQQQQQQQQQQEQQIQEQQQQQE",
+      "EQQIQQQQQQQQQQIQQQQQQQEQE",
+      "EIQQQQQQQQQQIQQQQQQQQQQIE",
+      "QQQQQQQEEQIQQQQQQQQQEIQQE",
+      "EQQQQQQQEQQQQEEQQQQIQQQQE",
+      "EQEEQQIQQQQQQQQQQIQQQQQQE",
+      "EQQEIQQQQQQQQQQIEEQQQQQEE",
+      "EQIQQQQQQQQQQIQQQEQQQQQQE",
+      "EEQQQQEQQEEIQQQQQQQQQEEQE",
+      "EQQQQQQQQIQQQQQQQQQQIQQQE",
+      "EEEEEEEEEEEEEEEEEEEEEEEEE",
+    ],
+    dock: { col: 0, row: 6 },
+    start: { col: 2, row: 6 },
+    spots: [
+      { name: "Ember Shore", col: 5, row: 3, level: "volcano_shore" },
+      { name: "Cinder Cove", col: 14, row: 5, level: "volcano_cove" },
+      { name: "Magma Falls", col: 12, row: 10, level: "volcano_falls" },
+      { name: "Crater Heart", col: 21, row: 7, level: "volcano_crater" },
+    ],
+  },
   city: {
     name: "The Sunken City",
     map: [
@@ -507,9 +605,9 @@ export const TOWN = {
 export const WORLD = {
   map: [
     "ooooooooooooooooooooooooo",
-    "ooooooooooooooooooooooooo",
-    "ooooffffooooooooooooooooo",
-    "oooffffffoooooooooooooooo",
+    "ooooooooooooooEqEoooooooo",
+    "ooooffffoooooEEEEEooooooo",
+    "oooffffffoooooEEEoooooooo",
     "ooffffffffoooooooooooSSoo",
     "ooffffffffffoooooooSSSSSo",
     "oooffffffffooooooooSSSSSo",
@@ -578,6 +676,17 @@ export const WORLD = {
       sail: "city",
       locked: "You need a submarine to dive to the Sunken City!",
       unlocked: (save) => save.boat >= 5,
+    },
+    {
+      id: "volcano",
+      name: "Volcano Island",
+      col: 15,
+      row: 2,
+      icon: "icon_volcano",
+      scene: "Sail",
+      sail: "volcano",
+      locked: "You need a lava hoverboat to cross the lava!",
+      unlocked: (save) => save.boat >= 6,
     },
   ],
 };

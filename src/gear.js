@@ -42,7 +42,7 @@ export const BAITS = {
 //   art       side view when you fish from it   deckRow: which row of the art is the deck
 //   topArt    the little boat you drive around on the water map
 // Better boats open bigger water: Little Boat = pond, Fishing Boat = lake, Powerboat = ocean,
-// Airboat = the Deep Zone swamp, Submarine = the Sunken City.
+// Airboat = the Deep Zone swamp, Submarine = the Sunken City, Lava Hoverboat = Volcano Island.
 export const BOATS = [
   {
     name: "Little Boat",
@@ -154,6 +154,28 @@ export const BOATS = [
       "kkyylyyyyyyyyyyyyy",
       ".kyyyyyyyyyyyyyy..",
       "..yyyyyyyyyyyy....",
+    ],
+  },
+  {
+    name: "Lava Hoverboat",
+    price: 250000,
+    speed: 330,
+    deckRow: 3,
+    art: [
+      "..........oo................",
+      ".........ooyo...............",
+      "........rrrrrr..............",
+      "rrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+      ".rwwwwwwwwwwwwwwwwwwwwwwwwwr.",
+      "..rrrrrrrrrrrrrrrrrrrrrrrrr..",
+      "...yoyoyoyoyoyoyoyoyoyoyo....",
+    ],
+    topArt: [
+      "..rrrrrrrrrrrr....",
+      ".orrrrrrrrrrrrrr..",
+      "ooyyrrrrrrrrrrrrrr",
+      ".orrrrrrrrrrrrrr..",
+      "..rrrrrrrrrrrr....",
     ],
   },
 ];

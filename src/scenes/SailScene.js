@@ -6,7 +6,7 @@ import { save } from "../save.js";
 import { sfx } from "../sound.js";
 import { hint } from "../gamepad.js";
 
-const WATER = "~oOWV"; // blocks you can drive on. Everything else (land, rocks) is in the way.
+const WATER = "~oOWVQI"; // blocks you can drive on. Everything else (land, rocks) is in the way.
 const HALF = 10; // half the boat's size, for bumping into things
 const NEAR = 40; // how close to a fishing spot you need to be
 
