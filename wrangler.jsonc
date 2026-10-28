@@ -1,0 +1,7 @@
+{
+  // The game is a folder of static files (npm run build puts them in dist/fish4fish).
+  // Cloudflare serves them at coopnkieran.com/fish4fish/
+  "name": "fish4fish",
+  "compatibility_date": "2026-10-23",
+  "assets": { "directory": "./dist" }
+}
