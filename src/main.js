@@ -6,6 +6,7 @@ import { ShopScene } from "./scenes/ShopScene.js";
 import { FishScene } from "./scenes/FishScene.js";
 import { SailScene } from "./scenes/SailScene.js";
 import { startMusic, toggleMute } from "./sound.js";
+import { startGamepad } from "./gamepad.js";
 
 // window.game lets you poke at the game from the browser console (try game.scene.getScene('Fish'))
 window.game = new Game({
@@ -15,6 +16,9 @@ window.game = new Game({
   backgroundColor: "#10202e",
   scene: [BootScene, MenuScene, MapScene, ShopScene, FishScene, SailScene],
 });
+
+// A controller presses the same keys the keyboard does (see gamepad.js).
+startGamepad();
 
 // Browsers only allow sound after you press something, so start the music on the first key.
 window.addEventListener("keydown", (e) => {

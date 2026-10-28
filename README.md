@@ -1,4 +1,4 @@
-# Gone Fishing!
+# Fish 4 Fish
 
 Run it: `npm install` then `npx vite` and open the address it prints.
 
@@ -7,6 +7,12 @@ Run it: `npm install` then `npx vite` and open the address it prints.
 - DOWN: hook the fish when the bobber dips and "!" shows up
 - LEFT: reel in. Let go when the fish pulls or the line snaps!
 - UP: change bait. ESC: back to the map. M: music on/off.
+
+### With a controller
+Pair a Bluetooth controller to the computer, then press any button. The keyboard still works too.
+The D-pad (or left stick) is the arrow keys, A is SPACE, B is ESC, Y is M and X is N (new game).
+To change which button does what, edit `BUTTONS` in `src/gamepad.js`. The game only ever sees key presses,
+so new scenes work with a controller without any extra code.
 
 ## Change the game by typing
 | File | What's in it |

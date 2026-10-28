@@ -14,7 +14,7 @@ export const FISH = {
     dist: [0, 400],
     rarity: 10,
     fight: 0.4,
-    likes: ["bread"],
+    likes: ["bread", "corn"],
     scale: 3,
     art: [
       "..aaaaa..a",
@@ -30,7 +30,7 @@ export const FISH = {
     dist: [30, 220],
     rarity: 8,
     fight: 0.6,
-    likes: ["bread", "worm"],
+    likes: ["bread", "worm", "cricket", "corn"],
     scale: 3,
     art: [
       "...bbbbb......",
@@ -48,7 +48,7 @@ export const FISH = {
     dist: [0, 260],
     rarity: 6,
     fight: 0.7,
-    likes: ["worm"],
+    likes: ["worm", "cricket"],
     scale: 3,
     art: [
       "...dddd.dd....",
@@ -66,7 +66,7 @@ export const FISH = {
     dist: [140, 400],
     rarity: 3,
     fight: 1.1,
-    likes: ["shrimp", "worm"],
+    likes: ["shrimp", "worm", "livebait"],
     scale: 3,
     art: [
       "...eeeeeeeee....",
@@ -84,7 +84,7 @@ export const FISH = {
     dist: [220, 400],
     rarity: 2,
     fight: 1.3,
-    likes: ["glowbug", "shrimp"],
+    likes: ["glowbug", "shrimp", "livebait"],
     scale: 3,
     art: [
       "....gggggggg......",
@@ -102,7 +102,7 @@ export const FISH = {
     dist: [300, 400],
     rarity: 0.5,
     fight: 1.6,
-    likes: ["glowbug"],
+    likes: ["glowbug", "corn"],
     scale: 3,
     art: [
       "....yyyyyyyy......",
@@ -120,7 +120,7 @@ export const FISH = {
     dist: [0, 400],
     rarity: 8,
     fight: 0.3,
-    likes: ["bread"],
+    likes: ["bread", "cricket"],
     scale: 3,
     art: [
       ".wk..wk...",
@@ -138,7 +138,7 @@ export const FISH = {
     dist: [0, 260],
     rarity: 4,
     fight: 0.5,
-    likes: ["worm"],
+    likes: ["worm", "cricket"],
     scale: 3,
     art: [
       "....dddd....",
@@ -156,7 +156,7 @@ export const FISH = {
     dist: [120, 400],
     rarity: 5,
     fight: 0.9,
-    likes: ["worm", "shrimp"],
+    likes: ["worm", "shrimp", "cricket"],
     scale: 3,
     art: [
       "...aaaaaa.....",
@@ -174,7 +174,7 @@ export const FISH = {
     dist: [200, 400],
     rarity: 3,
     fight: 1.4,
-    likes: ["shrimp", "glowbug"],
+    likes: ["shrimp", "glowbug", "livebait"],
     scale: 3,
     art: [
       "....gggggggggg....",
@@ -192,7 +192,7 @@ export const FISH = {
     dist: [160, 400],
     rarity: 4,
     fight: 1.2,
-    likes: ["worm", "shrimp"],
+    likes: ["worm", "shrimp", "livebait"],
     scale: 3,
     art: [
       "....dddddd......",
@@ -210,7 +210,7 @@ export const FISH = {
     dist: [220, 400],
     rarity: 3,
     fight: 1.5,
-    likes: ["shrimp", "glowbug"],
+    likes: ["shrimp", "glowbug", "livebait"],
     scale: 3,
     art: [
       "....rrrrr.......",
@@ -270,7 +270,7 @@ export const FISH = {
     dist: [100, 440],
     rarity: 8,
     fight: 1.3,
-    likes: ["shrimp", "worm"],
+    likes: ["shrimp", "worm", "livebait"],
     scale: 3,
     art: [
       "...ddddd......",

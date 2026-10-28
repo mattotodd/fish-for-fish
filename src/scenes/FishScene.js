@@ -1,9 +1,10 @@
-import { Scene, Math as PMath } from "phaser";
+import { Scene, Math as PMath, Display } from "phaser";
 import { LEVELS } from "../levels.js";
 import { FISH } from "../fish.js";
 import { RODS, BAITS, BOATS } from "../gear.js";
 import { save, persist } from "../save.js";
 import { sfx } from "../sound.js";
+import { hint } from "../gamepad.js";
 import { drawTiles, text, money, bucketValue } from "../draw.js";
 
 const CHARGE_TIME = 1.2; // seconds to fully charge a cast
@@ -86,7 +87,7 @@ export class FishScene extends Scene {
 
   setState(state) {
     this.state = state;
-    this.hint.setText(HINTS[state] ?? "");
+    this.hint.setText(hint(HINTS[state] ?? ""));
   }
 
   say(str, ms = 2200) {
@@ -117,6 +118,11 @@ export class FishScene extends Scene {
         .setAlpha(0.22);
       this.swimmers.push({ sprite, speed: rand(10, 30) * (Math.random() < 0.5 ? -1 : 1) });
     }
+  }
+
+  rodColor() {
+    if (this.rod.color !== "rainbow") return this.rod.color;
+    return Display.Color.HSVToRGB((this.clock * 0.5) % 1, 1, 1).color;
   }
 
   rodBase() {
@@ -194,7 +200,7 @@ export class FishScene extends Scene {
     const pool = this.level.fish
       .map((id) => ({ id, fish: FISH[id] }))
       .filter(({ fish }) => dist >= fish.dist[0] && dist <= fish.dist[1])
-      .map(({ id, fish }) => ({ id, weight: fish.rarity * (fish.likes.includes(this.castBaitId) ? 3 : 1) }));
+      .map(({ id, fish }) => ({ id, weight: fish.rarity * (fish.likes.includes(this.castBaitId) ? 3 : 1) * (fish.rarity <= 1 ? this.castBait.luck ?? 1 : 1) }));
     if (!pool.length) return this.level.fish[0]; // nothing lives this far out, so something boring bites
     let roll = Math.random() * pool.reduce((sum, p) => sum + p.weight, 0);
     for (const p of pool) {
@@ -342,7 +348,7 @@ export class FishScene extends Scene {
     // The rod and the line.
     const base = this.rodBase();
     const tip = this.rodTip();
-    g.lineStyle(4, 0x5a3a1e).lineBetween(base.x, base.y, tip.x, tip.y);
+    g.lineStyle(4, this.rodColor()).lineBetween(base.x, base.y, tip.x, tip.y);
     g.lineStyle(1, 0xffffff, 0.85);
     if (this.bobber.visible) g.lineBetween(tip.x, tip.y, this.bobber.x, this.bobber.y);
     else g.lineBetween(tip.x, tip.y, tip.x, tip.y + 28);
@@ -420,7 +426,7 @@ export class FishScene extends Scene {
     const tensionColor = r.tension < 0.6 ? 0x4caf50 : r.tension < 0.85 ? 0xf2c94c : 0xd93a3a;
     this.bar(g, 440, 372, 340, 14, r.tension, tensionColor);
     this.bar(g, 440, 396, 340, 14, 1 - r.d / r.d0, 0x8fc7ff);
-    this.hint.setText(r.pulling ? "THE FISH IS PULLING!  LET GO!" : HINTS.reeling);
+    this.hint.setText(r.pulling ? "THE FISH IS PULLING!  LET GO!" : hint(HINTS.reeling));
     this.hint.setColor(r.pulling ? "#ff7070" : "#ffe9a8");
 
     if (r.tension >= 1) {

@@ -4,6 +4,7 @@ import { BOATS } from "../gear.js";
 import { drawTiles, text, money, bucketValue } from "../draw.js";
 import { save } from "../save.js";
 import { sfx } from "../sound.js";
+import { hint } from "../gamepad.js";
 
 const WATER = "~oO"; // blocks you can drive on. Everything else (land, rocks) is in the way.
 const HALF = 10; // half the boat's size, for bumping into things
@@ -47,7 +48,7 @@ export class SailScene extends Scene {
     this.label = text(this, 400, 52, "", { fontSize: "18px", color: "#9bff9b" }).setOrigin(0.5).setDepth(10);
     this.hud = text(this, 790, 8, "", { fontSize: "14px", align: "right" }).setOrigin(1, 0).setDepth(10);
     this.hud.setText(`${money(save.money)}\nBucket: ${save.fish.length} fish (${money(bucketValue(save))})`);
-    text(this, 400, 432, "ARROWS: drive     SPACE: fish at a spot     ESC: back to the map", {
+    text(this, 400, 432, hint("ARROWS: drive     SPACE: fish at a spot     ESC: back to the map"), {
       fontSize: "13px",
       color: "#ffe9a8",
     })
@@ -90,7 +91,7 @@ export class SailScene extends Scene {
     this.boat.y += Math.sin(time / 300) * 0.05; // gentle bobbing
 
     this.near = this.spots.find((s) => Math.hypot(s.x - this.boat.x, s.y - this.boat.y) < NEAR) ?? null;
-    this.label.setText(this.near ? `${this.near.name}: press SPACE to fish!` : "");
+    this.label.setText(this.near ? hint(`${this.near.name}: press SPACE to fish!`) : "");
   }
 
   fishHere() {

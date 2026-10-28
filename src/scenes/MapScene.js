@@ -3,6 +3,7 @@ import { TILE, WORLD, LEVELS, SAILS } from "../levels.js";
 import { drawTiles, text, money, bucketValue } from "../draw.js";
 import { save } from "../save.js";
 import { sfx } from "../sound.js";
+import { hint } from "../gamepad.js";
 
 let selected = 1; // remember which spot you were on
 
@@ -32,7 +33,7 @@ export class MapScene extends Scene {
     this.label = text(this, 400, 24, "", { fontSize: "26px", color: "#ffe066" }).setOrigin(0.5).setDepth(5);
     this.msg = text(this, 400, 60, "", { fontSize: "16px", color: "#ffb0b0" }).setOrigin(0.5).setDepth(5);
     this.hud = text(this, 790, 8, "", { fontSize: "14px" }).setOrigin(1, 0).setDepth(5);
-    text(this, 400, 428, "LEFT / RIGHT: pick a place     SPACE: go     ESC: title", {
+    text(this, 400, 428, hint("LEFT / RIGHT: pick a place     SPACE: go     ESC: title"), {
       fontSize: "13px",
       color: "#ffe9a8",
     })
