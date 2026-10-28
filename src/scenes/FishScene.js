@@ -133,6 +133,7 @@ export class FishScene extends Scene {
         .setDepth(1)
         .setTint(0x000000)
         .setAlpha(0.22);
+      sprite.setScale(Math.min(1, (FISH[id].bloop ? 700 : 300) / sprite.width)); // huge fish only show up as a shadow of this size
       this.swimmers.push({ sprite, speed: rand(10, 30) * (Math.random() < 0.5 ? -1 : 1) });
     }
   }
@@ -263,7 +264,7 @@ export class FishScene extends Scene {
     const pool = this.level.fish
       .map((id) => ({ id, fish: FISH[id] }))
       .filter(({ fish }) => dist >= fish.dist[0] && dist <= fish.dist[1])
-      .map(({ id, fish }) => ({ id, weight: fish.rarity * (fish.likes.includes(this.castBaitId) ? 3 : 1) * (fish.rarity <= 1 ? (this.castBait.luck ?? 1) * this.boosts.luck : 1) }));
+      .map(({ id, fish }) => ({ id, weight: fish.rarity * (fish.likes.includes(this.castBaitId) ? this.castBait.favorite ?? 3 : 1) * (fish.rarity <= 1 ? (this.castBait.luck ?? 1) * this.boosts.luck : 1) }));
     if (!pool.length) {
       // Nothing lives exactly this far out, so the fish whose water is closest bites.
       const away = (id) => Math.max(FISH[id].dist[0] - dist, dist - FISH[id].dist[1], 0);
@@ -286,7 +287,12 @@ export class FishScene extends Scene {
     this.hooked = this.pickFish();
     this.biteLeft = BITE_WINDOW;
     this.setState("bite");
-    sfx.bite();
+    if (FISH[this.hooked].bloop) {
+      sfx.bloop();
+      this.cameras.main.shake(900, 0.008);
+    } else {
+      sfx.bite();
+    }
   }
 
   startReel() {
@@ -303,6 +309,8 @@ export class FishScene extends Scene {
     this.reel.d0 = this.reel.d;
     this.bang.setVisible(false);
     this.underFish.setTexture("fish_" + this.hooked).setVisible(true);
+    // A giant has its nose on the hook and its huge body trailing off behind it.
+    this.underFish.setOrigin(fish.bloop ? 0 : 0.5, 0.5);
     this.meterLabels.setVisible(true);
     this.setState("reeling");
   }
@@ -335,11 +343,23 @@ export class FishScene extends Scene {
 
   showCard(fish, weight, value) {
     const c = this.add.container(0, 0).setDepth(20);
-    c.add(this.add.rectangle(400, 200, 420, 240, 0x10202e, 0.92).setStrokeStyle(4, 0xffe066));
-    c.add(text(this, 400, 110, fish.junk ? "Yuck!" : fish.legendary ? "WOW!!!" : "You caught one!", { fontSize: "26px", color: "#ffe066" }).setOrigin(0.5));
-    c.add(this.add.image(400, 185, "fish_" + this.hooked).setScale(2.2));
-    c.add(text(this, 400, 245, fish.name, { fontSize: "24px" }).setOrigin(0.5));
-    c.add(text(this, 400, 275, `${weight} lbs     ${money(value)}`, { fontSize: "18px", color: "#9bff9b" }).setOrigin(0.5));
+    const title = fish.junk ? "Yuck!" : fish.legendary ? "WOW!!!" : "You caught one!";
+    if (fish.bloop) {
+      // A giant gets a giant card, with the whole monster showing across it.
+      c.add(this.add.rectangle(400, 232, 780, 340, 0x10202e, 0.94).setStrokeStyle(4, 0xffe066));
+      const picture = this.add.image(400, 218, "fish_" + this.hooked);
+      c.add(picture.setScale(Math.min(2.2, 760 / picture.width, 290 / picture.height)));
+      c.add(text(this, 400, 96, title, { fontSize: "26px", color: "#ffe066", strokeThickness: 6 }).setOrigin(0.5));
+      c.add(text(this, 400, 336, fish.name, { fontSize: "28px", strokeThickness: 6 }).setOrigin(0.5));
+      c.add(text(this, 400, 372, `${weight} lbs     ${money(value)}`, { fontSize: "18px", color: "#9bff9b", strokeThickness: 5 }).setOrigin(0.5));
+    } else {
+      c.add(this.add.rectangle(400, 200, 420, 240, 0x10202e, 0.92).setStrokeStyle(4, 0xffe066));
+      c.add(text(this, 400, 110, title, { fontSize: "26px", color: "#ffe066" }).setOrigin(0.5));
+      const picture = this.add.image(400, 180, "fish_" + this.hooked);
+      c.add(picture.setScale(Math.min(2.2, 290 / picture.width, 100 / picture.height))); // big fish shrink to fit the card
+      c.add(text(this, 400, 245, fish.name, { fontSize: "24px" }).setOrigin(0.5));
+      c.add(text(this, 400, 275, `${weight} lbs     ${money(value)}`, { fontSize: "18px", color: "#9bff9b" }).setOrigin(0.5));
+    }
     this.card = c;
     this.setState("card");
   }

@@ -59,6 +59,10 @@ export const sfx = {
     [523, 659, 784, 1047, 784, 1047, 1319, 1568].forEach((f, i) => tone(f, 0.22, "square", 0.08, 0, i * 0.14));
     [262, 330, 392, 523].forEach((f, i) => tone(f, 0.5, "triangle", 0.07, 0, 1.2 + i * 0.1));
   },
+  bloop: () => {
+    tone(190, 1.6, "sine", 0.14, 35);
+    tone(95, 1.9, "sine", 0.12, 28, 0.15);
+  },
   junk: () => tone(200, 0.4, "sawtooth", 0.06, 100),
   coin: () => {
     tone(988, 0.08, "square", 0.06);

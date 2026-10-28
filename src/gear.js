@@ -21,6 +21,7 @@ export const RODS = [
 //   biteSpeed  bigger = fish find it faster
 //   pack       how many you get per purchase (bread is free and never runs out)
 //   luck       (optional) multiplies how often the rare fish bite
+//   favorite   (optional) how much more the fish that like it go for it (the usual is 3)
 //   color      the color of the jar on the bait shop shelf
 // Fish have a `likes` list in fish.js: they go for their favorite bait 3 times as often.
 export const BAITS = {
@@ -34,13 +35,14 @@ export const BAITS = {
   squid: { name: "Squid", price: 80, pack: 10, biteSpeed: 3, color: 0xa060d0 },
   chicken: { name: "Raw Chicken", price: 120, pack: 10, biteSpeed: 3.4, color: 0xe0b070 },
   lure: { name: "Lucky Lure", price: 300, pack: 5, biteSpeed: 4, luck: 3, color: 0xff4040 },
+  monsterbait: { name: "Monster Bait", price: 20000, pack: 3, biteSpeed: 5, luck: 10, favorite: 60, color: 0xff3fb0 },
 };
 
 //   speed     how fast you drive (pixels per second)
 //   art       side view when you fish from it   deckRow: which row of the art is the deck
 //   topArt    the little boat you drive around on the water map
 // Better boats open bigger water: Little Boat = pond, Fishing Boat = lake, Powerboat = ocean,
-// Airboat = the Deep Zone swamp.
+// Airboat = the Deep Zone swamp, Submarine = the Sunken City.
 export const BOATS = [
   {
     name: "Little Boat",
@@ -130,6 +132,28 @@ export const BOATS = [
       ".aeea.dgggggggdd",
       ".aeea.dgggggddd.",
       "..aa..ddddddd...",
+    ],
+  },
+  {
+    name: "Submarine",
+    price: 60000,
+    speed: 280,
+    deckRow: 3,
+    art: [
+      "..........kk................",
+      "..........k.................",
+      "........yyyyyy..............",
+      "yyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      ".yoooooooooooooooooooooooooy.",
+      "..yyyyyyyyyyyyyyyyyyyyyyyyy..",
+      "...oooooooooooooooooooooo....",
+    ],
+    topArt: [
+      "..yyyyyyyyyyyy....",
+      ".kyyyyyyyyyyyyyy..",
+      "kkyylyyyyyyyyyyyyy",
+      ".kyyyyyyyyyyyyyy..",
+      "..yyyyyyyyyyyy....",
     ],
   },
 ];

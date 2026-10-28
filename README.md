@@ -34,6 +34,7 @@ so new scenes work with a controller without any extra code.
 | Big Lake | Fishing Boat | Pine Shallows, Rocky Reef, Deep Water |
 | The Ocean | Powerboat | Coral Reef, Shipwreck, Open Sea, The Deep Trench |
 | The Deep Zone (swamp) | Airboat | Mangrove Maze, Gator Bayou, Black Water, Heart of the Swamp |
+| The Sunken City | Submarine | Sunken Gate, Drowned Temple, Treasure Vault, The Abyss |
 
 ### The Village
 You walk around the village and step into a shop (press SPACE at its door). Inside, walk up to something and press SPACE to buy it.

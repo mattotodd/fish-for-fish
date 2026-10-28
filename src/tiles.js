@@ -26,6 +26,11 @@ export const TILE_ART = {
   Z: ["..zdzd..", ".zdddzd.", "zdddzddz", ".dzddzd.", "..zmnm..", "..zmnm..", ".zmnnmz.", "zmnnnnmz"],
   B: ["hhhhhhhh", "hihhhhhh", "hhhhhihh", "hhzhhhhh", "hhhhhhzh", "hihhhhhh", "hhhhihhh", "hhhhhhhh"],
   J: ["jjdgdgjj", "jdgdgdgj", "jjdgdgjj", "jjjmnjjj", "jmjmnjmj", "jnmmnmnj", "jjnmjmjj", "jjjjjjjj"],
+  // the Sunken City: a column, a brick wall and kelp on the sea floor (v behind them), and a broken pillar above the water
+  a: ["vvwwwwvv", "vvawwavv", "vvawwavv", "vvaaaavv", "vvawwavv", "vvawwavv", "vvaaaavv", "vvawwavv"],
+  e: ["eeeeeeee", "eaeaeaea", "eeeeeeee", "aeaeaeae", "eeeeeeee", "eaeaeaea", "eeeeeeee", "aeaeaeae"],
+  k: ["vvgvvvgv", "vgdvvgdv", "vgdvgdvv", "vvgdgdvv", "vvgdgvvv", "vgdvgdvv", "vgdvvgdv", "vvgvvvgv"],
+  b: ["..wwww..", "..awwa..", "..awwa..", "..awwa..", "..awwa..", "..awwa..", ".aaaaaa.", "eeeeeeee"],
   // the village: 1-4 are roofs, w is a wall with windows, d is a door, p is the path
   1: ["gggggggg", "dddddddd", "gggggggg", "dddddddd", "gggggggg", "dddddddd", "gggggggg", "dddddddd"],
   2: ["bbbbbbbb", "vvvvvvvv", "bbbbbbbb", "vvvvvvvv", "bbbbbbbb", "vvvvvvvv", "bbbbbbbb", "vvvvvvvv"],
@@ -151,6 +156,15 @@ export const ICON_ART = {
     "....mn.....",
     "jjjjmnjjjjj",
     "qjjjjjjjqjj",
+  ],
+  icon_city: [
+    "....yy....",
+    "...wwww...",
+    "..wwwwww..",
+    "..w.ww.w..",
+    "..w.ww.w..",
+    "vvvvvvvvvv",
+    "vvvvvvvvvv",
   ],
   icon_spot: ["..yyyy..", ".y....y.", "y..yy..y", "y..yy..y", ".y....y.", "..yyyy.."],
   bobber: ["..rr..", ".rrrr.", "rrrrrr", "wwwwww", ".wwww.", "..ww.."],

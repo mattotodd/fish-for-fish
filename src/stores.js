@@ -51,7 +51,7 @@ function baitItems() {
       key: "bait_" + id,
       name: `${bait.name} x${bait.pack}`,
       price: money(bait.price),
-      detail: `You have ${save.bait[id]}.  Fish find it ${bait.biteSpeed}x faster` + (bait.luck ? `   Rare fish bite ${bait.luck}x more!` : ""),
+      detail: `You have ${save.bait[id]}.  Fish find it ${bait.biteSpeed}x faster` + (bait.luck ? `   Rare fish bite ${bait.luck}x more!` : "") + (bait.favorite ? "   Legendary monsters can't resist it!" : ""),
       jar: bait.color,
       x: shelfX(i, ids.length),
       y: 78,

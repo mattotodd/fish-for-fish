@@ -3,6 +3,7 @@
 //   G  grass   D  dirt     =  dock     |  dock post    R  reeds
 //   ~  water surface       o  water    O  deep water   P  lily pads    K  rock
 //   A  palm tree    C  coral    X  shipwreck    S  sand
+//   a  sunken column  e  sunken wall  k  kelp  b  broken pillar (the Sunken City)
 //   W  swamp water  V  deep swamp water    Z  cypress tree (z on mud)    B  mud bank    J  mangrove roots
 // The village and the shop insides use 1-4 (roofs) w (wall) d (door) p (path) F (floor) H (wall) N (shelf) U (counter).
 // The driving maps and the world map use f (flat grass), S (sand), o (water) and K (rock) too.
@@ -31,6 +32,8 @@ const WATER = [
 // The swamp: rows 0-3 sky, 4-5 and 6 trees, 7 muddy bank, 8-13 water.
 const SWAMP_WATER = ["W".repeat(25), "W".repeat(25), "W".repeat(25), "V".repeat(25), "V".repeat(25), "V".repeat(25)];
 const DEEP_SWAMP = ["W".repeat(25), ...Array(5).fill("V".repeat(25))];
+// The Sunken City: sky, a few broken pillars on the horizon, then water with ruins on the sea floor.
+const CITY_SKY = [".........................", ".......cc........ccc.....", "......cccc......cc.......", ".........................", "..cc...............cc....", ".ccc..............ccc...."];
 const DEEP = ["~".repeat(25), ...Array(5).fill("O".repeat(25))];
 // Fishing from a boat: the kid stands on the boat, and casts are measured from its right edge.
 const BOAT_VIEW = { onBoat: true, kid: { x: 274, y: 250 }, dockEnd: 300, waterTop: 256 };
@@ -262,6 +265,75 @@ export const LEVELS = {
     ],
     fish: ["eel", "alligator", "crocodile", "python", "ghostgator", "seamonster"],
   },
+  // ---- the Sunken City (you need the Submarine) ----
+  city_gate: {
+    ...BOAT_VIEW,
+    name: "Sunken Gate",
+    sky: 0x6a7ab8,
+    map: [
+      ...CITY_SKY,
+      ".........................",
+      "...b........b.......b....",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "ooooooooooooooooooooooooo",
+      "ooooooooooooooooooooooooo",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+      "OkOOaOOOOkOOeeOOOOkOOaOOk",
+    ],
+    fish: ["lanternfish", "pearlclam", "morayeel", "barracuda"],
+  },
+  city_temple: {
+    ...BOAT_VIEW,
+    name: "Drowned Temple",
+    sky: 0x5a6aa8,
+    map: [
+      ...CITY_SKY,
+      "....b.........b..........",
+      "..b.b....b....b....b..b..",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "ooooooooooooooooooooooooo",
+      "ooooooooooooooooooooooooo",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+      "OOOOaOOOOOOaOOOOOOaOOOOOO",
+      "OeeaeOkOOeeaeOkOOeeaeOkOO",
+    ],
+    fish: ["morayeel", "barracuda", "spidercrab", "pearlclam", "goldenidol"],
+  },
+  city_vault: {
+    ...BOAT_VIEW,
+    name: "Treasure Vault",
+    sky: 0x4a5a98,
+    map: [
+      ...CITY_SKY,
+      ".........................",
+      ".b..b.b..b...b..b.b..b.b.",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "ooooooooooooooooooooooooo",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+      "OaOOOOaOOOOaOOOOaOOOOaOOO",
+      "eeeeeeeeeeeeeeeeeeeeeeeee",
+    ],
+    fish: ["spidercrab", "anglerfish", "mantaray", "goldenidol", "pearlclam"],
+  },
+  city_abyss: {
+    ...BOAT_VIEW,
+    name: "The Abyss",
+    sky: 0x2a3a78,
+    map: [
+      ...CITY_SKY,
+      ".........................",
+      ".........................",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+      "OOkOOOOOaOOOOOOOOaOOOOOkO",
+    ],
+    fish: ["anglerfish", "mantaray", "ghostshark", "goldenidol", "kraken"],
+  },
 };
 
 // Driving maps. You steer the boat around on the water (o) and can't cross land (f) or rocks (K).
@@ -373,6 +445,33 @@ export const SAILS = {
       { name: "Heart of the Swamp", col: 20, row: 11, level: "swamp_heart" },
     ],
   },
+  city: {
+    name: "The Sunken City",
+    map: [
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+      "OooooooooeeooooooooooookO",
+      "OoooooKoooaooooCooooooooO",
+      "OkoooooooooooooooooeaoooO",
+      "OooCooooookoooooooooooooO",
+      "OoooooeeoooooooaooooooooO",
+      "ooooooeaooooooooooooCoooO",
+      "OoooooooooooeeooooooooooO",
+      "OoooooooooooaoooookoooooO",
+      "OooaoooooooooooooooooeeoO",
+      "OoooooCooooooKoooooooeaoO",
+      "OoooooooooookoooooooooooO",
+      "OoooeeooooooooooCoooooooO",
+      "OOOOOOOOOOOOOOOOOOOOOOOOO",
+    ],
+    dock: { col: 0, row: 6 },
+    start: { col: 2, row: 6 },
+    spots: [
+      { name: "Sunken Gate", col: 5, row: 3, level: "city_gate" },
+      { name: "Drowned Temple", col: 14, row: 5, level: "city_temple" },
+      { name: "Treasure Vault", col: 12, row: 9, level: "city_vault" },
+      { name: "The Abyss", col: 21, row: 7, level: "city_abyss" },
+    ],
+  },
 };
 
 // The village: you walk around it and step into the shops. Doors are the d blocks in row 4.
@@ -401,6 +500,7 @@ export const TOWN = {
     { col: 15, row: 4, store: "snacks", name: "Snack Shack" },
     { col: 21, row: 4, store: "market", name: "Fish Market" },
   ],
+
 };
 
 // The world map. Add a spot here and it shows up!
@@ -467,6 +567,17 @@ export const WORLD = {
       sail: "swamp",
       locked: "You need an airboat to get through the swamp!",
       unlocked: (save) => save.boat >= 4,
+    },
+    {
+      id: "city",
+      name: "The Sunken City",
+      col: 15,
+      row: 7,
+      icon: "icon_city",
+      scene: "Sail",
+      sail: "city",
+      locked: "You need a submarine to dive to the Sunken City!",
+      unlocked: (save) => save.boat >= 5,
     },
   ],
 };
