@@ -1,6 +1,6 @@
 import { Scene } from "phaser";
 import { makeTexture } from "../art.js";
-import { TILE_ART, KID_ART, ICON_ART } from "../tiles.js";
+import { TILE_ART, KID_ART, KEEPER_ART, ICON_ART, ITEM_ART } from "../tiles.js";
 import { FISH } from "../fish.js";
 import { BOATS } from "../gear.js";
 
@@ -13,6 +13,8 @@ export class BootScene extends Scene {
   create() {
     for (const [ch, grid] of Object.entries(TILE_ART)) makeTexture(this, "tile_" + ch, grid, 4);
     makeTexture(this, "kid", KID_ART, 2);
+    makeTexture(this, "keeper", KEEPER_ART, 2);
+    for (const [key, grid] of Object.entries(ITEM_ART)) makeTexture(this, key, grid, key === "item_rod" ? 3 : key.startsWith("item_jar") ? 4 : 3);
     for (const [key, grid] of Object.entries(ICON_ART)) makeTexture(this, key, grid, key === "bobber" ? 2 : 3);
     for (const [id, fish] of Object.entries(FISH)) makeTexture(this, "fish_" + id, fish.art, fish.scale);
     BOATS.forEach((boat, i) => {

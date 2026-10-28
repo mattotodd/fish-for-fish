@@ -21,23 +21,26 @@ export const RODS = [
 //   biteSpeed  bigger = fish find it faster
 //   pack       how many you get per purchase (bread is free and never runs out)
 //   luck       (optional) multiplies how often the rare fish bite
+//   color      the color of the jar on the bait shop shelf
 // Fish have a `likes` list in fish.js: they go for their favorite bait 3 times as often.
 export const BAITS = {
-  bread: { name: "Bread", price: 0, pack: 0, biteSpeed: 1 },
-  corn: { name: "Corn", price: 3, pack: 10, biteSpeed: 1.2 },
-  worm: { name: "Worms", price: 6, pack: 10, biteSpeed: 1.6 },
-  cricket: { name: "Crickets", price: 12, pack: 10, biteSpeed: 1.8 },
-  shrimp: { name: "Shrimp", price: 20, pack: 10, biteSpeed: 2 },
-  livebait: { name: "Live Minnows", price: 35, pack: 10, biteSpeed: 2.2 },
-  glowbug: { name: "Glow Bugs", price: 50, pack: 10, biteSpeed: 2.5 },
-  squid: { name: "Squid", price: 80, pack: 10, biteSpeed: 3 },
-  lure: { name: "Lucky Lure", price: 300, pack: 5, biteSpeed: 4, luck: 3 },
+  bread: { name: "Bread", price: 0, pack: 0, biteSpeed: 1, color: 0xe8c898 },
+  corn: { name: "Corn", price: 3, pack: 10, biteSpeed: 1.2, color: 0xf2c94c },
+  worm: { name: "Worms", price: 6, pack: 10, biteSpeed: 1.6, color: 0xc46a5a },
+  cricket: { name: "Crickets", price: 12, pack: 10, biteSpeed: 1.8, color: 0x4a7a2a },
+  shrimp: { name: "Shrimp", price: 20, pack: 10, biteSpeed: 2, color: 0xff9a6a },
+  livebait: { name: "Live Minnows", price: 35, pack: 10, biteSpeed: 2.2, color: 0xa8c8e8 },
+  glowbug: { name: "Glow Bugs", price: 50, pack: 10, biteSpeed: 2.5, color: 0xb8ff40 },
+  squid: { name: "Squid", price: 80, pack: 10, biteSpeed: 3, color: 0xa060d0 },
+  chicken: { name: "Raw Chicken", price: 120, pack: 10, biteSpeed: 3.4, color: 0xe0b070 },
+  lure: { name: "Lucky Lure", price: 300, pack: 5, biteSpeed: 4, luck: 3, color: 0xff4040 },
 };
 
 //   speed     how fast you drive (pixels per second)
 //   art       side view when you fish from it   deckRow: which row of the art is the deck
 //   topArt    the little boat you drive around on the water map
-// Better boats open bigger water: Little Boat = pond, Fishing Boat = lake, Powerboat = ocean.
+// Better boats open bigger water: Little Boat = pond, Fishing Boat = lake, Powerboat = ocean,
+// Airboat = the Deep Zone swamp.
 export const BOATS = [
   {
     name: "Little Boat",
@@ -105,6 +108,28 @@ export const BOATS = [
       "wwwwlllllwwwwwwwww..",
       ".wwwwwwwwwwwwwww....",
       "..wwwwwwwwwwww......",
+    ],
+  },
+  {
+    name: "Airboat",
+    price: 9000,
+    speed: 230,
+    deckRow: 3,
+    art: [
+      "..aa..........................",
+      ".aeea.........................",
+      ".aeea.........................",
+      "ddddddddddddddddddddddddddddd.",
+      ".dggggggggggggggggggggggggd...",
+      "..ddddddddddddddddddddddd.....",
+      "...mmmmmmmmmmmmmmmmmmmmm......",
+    ],
+    topArt: [
+      "..aa..ddddddd...",
+      ".aeea.dgggggddd.",
+      ".aeea.dgggggggdd",
+      ".aeea.dgggggddd.",
+      "..aa..ddddddd...",
     ],
   },
 ];

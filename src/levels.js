@@ -3,6 +3,8 @@
 //   G  grass   D  dirt     =  dock     |  dock post    R  reeds
 //   ~  water surface       o  water    O  deep water   P  lily pads    K  rock
 //   A  palm tree    C  coral    X  shipwreck    S  sand
+//   W  swamp water  V  deep swamp water    Z  cypress tree (z on mud)    B  mud bank    J  mangrove roots
+// The village and the shop insides use 1-4 (roofs) w (wall) d (door) p (path) F (floor) H (wall) N (shelf) U (counter).
 // The driving maps and the world map use f (flat grass), S (sand), o (water) and K (rock) too.
 
 export const COLS = 25;
@@ -26,6 +28,9 @@ const WATER = [
   "OOOOOOOOOOOOOOOOOOOOOOOOO",
   "OOOOOOOOOOOOOOOOOOOOOOOOO",
 ];
+// The swamp: rows 0-3 sky, 4-5 and 6 trees, 7 muddy bank, 8-13 water.
+const SWAMP_WATER = ["W".repeat(25), "W".repeat(25), "W".repeat(25), "V".repeat(25), "V".repeat(25), "V".repeat(25)];
+const DEEP_SWAMP = ["W".repeat(25), ...Array(5).fill("V".repeat(25))];
 const DEEP = ["~".repeat(25), ...Array(5).fill("O".repeat(25))];
 // Fishing from a boat: the kid stands on the boat, and casts are measured from its right edge.
 const BOAT_VIEW = { onBoat: true, kid: { x: 274, y: 250 }, dockEnd: 300, waterTop: 256 };
@@ -54,7 +59,7 @@ export const LEVELS = {
     kid: { x: 350, y: 224 },
     dockEnd: 384,
     waterTop: 256,
-    fish: ["minnow", "bluegill", "perch", "boot", "catfish", "bass", "goldencarp"],
+    fish: ["minnow", "bluegill", "perch", "catfish", "bass", "goldencarp"],
   },
 
   // ---- the pond (you need the Little Boat) ----
@@ -68,7 +73,7 @@ export const LEVELS = {
       "GGRGGGRRGGGGGRGGGGGGRGGGG",
       ...WATER,
     ],
-    fish: ["frog", "minnow", "bluegill", "perch", "turtle", "boot"],
+    fish: ["frog", "minnow", "bluegill", "perch", "turtle"],
   },
   pond_lilies: {
     ...BOAT_VIEW,
@@ -81,7 +86,7 @@ export const LEVELS = {
       "P~~P~~~~~PP~~~~~P~~~~P~~P",
       ...WATER.slice(1),
     ],
-    fish: ["frog", "bluegill", "perch", "turtle", "bass", "catfish", "boot"],
+    fish: ["frog", "bluegill", "perch", "turtle", "bass", "catfish"],
   },
   pond_deep: {
     ...BOAT_VIEW,
@@ -93,7 +98,7 @@ export const LEVELS = {
       ".........................",
       ...WATER,
     ],
-    fish: ["perch", "catfish", "bass", "trout", "pike", "goldencarp", "boot"],
+    fish: ["perch", "catfish", "bass", "trout", "pike", "goldencarp"],
   },
 
   // ---- the lake (you need the Fishing Boat) ----
@@ -107,7 +112,7 @@ export const LEVELS = {
       "GGGGGGGGGGGGGGGGGGGGGGGGG",
       ...WATER,
     ],
-    fish: ["perch", "bass", "pike", "walleye", "trout", "boot"],
+    fish: ["perch", "bass", "pike", "walleye", "trout"],
   },
   lake_rocks: {
     ...BOAT_VIEW,
@@ -121,7 +126,7 @@ export const LEVELS = {
       "ooooKoooooooooKooooooKooo",
       ...WATER.slice(2),
     ],
-    fish: ["bass", "pike", "walleye", "catfish", "salmon", "boot"],
+    fish: ["bass", "pike", "walleye", "catfish", "salmon"],
   },
   lake_deep: {
     ...BOAT_VIEW,
@@ -133,7 +138,7 @@ export const LEVELS = {
       "..MMM.MM...MMMM...M.MM...",
       ...WATER,
     ],
-    fish: ["trout", "pike", "walleye", "salmon", "sturgeon", "giantsturgeon", "boot"],
+    fish: ["trout", "pike", "walleye", "salmon", "sturgeon", "giantsturgeon"],
   },
 
   // ---- the ocean (you need the Powerboat) ----
@@ -148,7 +153,7 @@ export const LEVELS = {
       ...WATER.slice(0, 5),
       "OOCOOOOCCOOOOCOOOOOCOOOOC",
     ],
-    fish: ["mackerel", "snapper", "mahi", "treasure", "boot"],
+    fish: ["mackerel", "snapper", "mahi", "treasure"],
   },
   ocean_wreck: {
     ...BOAT_VIEW,
@@ -161,7 +166,7 @@ export const LEVELS = {
       "~~K~~~~~~~~~~K~~~~~~~~K~~",
       ...WATER.slice(1),
     ],
-    fish: ["snapper", "mahi", "tuna", "shark", "treasure", "boot"],
+    fish: ["snapper", "mahi", "tuna", "shark", "treasure"],
   },
   ocean_open: {
     ...BOAT_VIEW,
@@ -173,7 +178,7 @@ export const LEVELS = {
       ".........................",
       ...WATER,
     ],
-    fish: ["mackerel", "mahi", "tuna", "swordfish", "boot"],
+    fish: ["mackerel", "mahi", "tuna", "swordfish"],
   },
   ocean_trench: {
     ...BOAT_VIEW,
@@ -185,7 +190,77 @@ export const LEVELS = {
       ".........................",
       ...DEEP,
     ],
-    fish: ["tuna", "mahi", "swordfish", "shark", "giantsquid", "boot"],
+    fish: ["tuna", "mahi", "swordfish", "shark", "giantsquid"],
+  },
+
+  // ---- the Deep Zone (you need the Airboat) ----
+  swamp_mangrove: {
+    ...BOAT_VIEW,
+    name: "Mangrove Maze",
+    sky: 0x8aa890,
+    map: [
+      ".........................",
+      ".........................",
+      ".........................",
+      ".........................",
+      ".........................",
+      "Z.Z..Z..Z.Z..Z.Z..Z.Z.Z.Z",
+      "ZZZ.ZZZ.ZZ.Z.ZZZ.ZZ.ZZZ.Z",
+      "JJBJJJBJJBJJJJBJJJBJJBJJJ",
+      ...SWAMP_WATER,
+    ],
+    fish: ["frog", "bullfrog", "watersnake", "snapturtle", "catfish", "gar"],
+  },
+  swamp_bayou: {
+    ...BOAT_VIEW,
+    name: "Gator Bayou",
+    sky: 0x7f9a86,
+    map: [
+      ".........................",
+      ".........................",
+      ".........................",
+      ".........................",
+      "..Z.......Z.......Z....Z.",
+      "Z..ZZ.Z...Z.ZZ..Z..ZZ.Z..",
+      "ZZ.ZZZ.ZZ.ZZZZ.ZZ..ZZZ.ZZ",
+      "BBBBBBBBBBBBBBBBBBBBBBBBB",
+      ...SWAMP_WATER,
+    ],
+    fish: ["bullfrog", "watersnake", "cottonmouth", "snapturtle", "gar", "alligator"],
+  },
+  swamp_black: {
+    ...BOAT_VIEW,
+    name: "Black Water",
+    sky: 0x5f7568,
+    map: [
+      ".........................",
+      ".........................",
+      ".........................",
+      ".........................",
+      ".........................",
+      "...Z.........Z.........Z.",
+      "BBZZBBBBZBBBBBBZZBBBBBZBB",
+      "BBBBBBBBBBBBBBBBBBBBBBBBB",
+      ...DEEP_SWAMP,
+    ],
+    fish: ["cottonmouth", "gar", "eel", "alligator", "crocodile"],
+  },
+  swamp_heart: {
+    ...BOAT_VIEW,
+    name: "Heart of the Swamp",
+    sky: 0x3f4f4c,
+    map: [
+      ".........................",
+      ".........................",
+      "...Z.........Z.......Z...",
+      "Z.ZZ..ZZ.Z.ZZ..Z.ZZ.Z.ZZ.",
+      "ZZZZ.ZZZZZZ.ZZZ.ZZZZ.ZZZZ",
+      "ZZZZZZZZZZZZZZZZZZZZZZZZZ",
+      "ZZZBZZZZBZZZZZZBZZZZBZZZZ",
+      "BBBBBBBBBBBBBBBBBBBBBBBBB",
+      ...DEEP_SWAMP,
+    ],
+    fish: ["eel", "alligator", "crocodile", "python", "ghostgator", "seamonster"],
   },
 };
 
@@ -271,6 +346,61 @@ export const SAILS = {
       { name: "The Deep Trench", col: 21, row: 11, level: "ocean_trench" },
     ],
   },
+  swamp: {
+    name: "The Deep zone",
+    map: [
+      "BBBBBBBBBBBBBBBBBBBBBBBBB",
+      "BBBWWWWWBBBBBBBBzBBWWWWBB",
+      "BWWWWWWWWWBBJWWWWWWWWWWWB",
+      "BWWWJWWWWWWWWWWWBBWWWWWWB",
+      "BWWWWWWBBWWWWWWWWBBWWJWWB",
+      "BBWWWWWWBBWWJWWWWWWWWWWBB",
+      "BWWWWWWWWWWWWWWWWBBWWWWWB",
+      "WWWWBBWWWWBBWWWWWWWBBWWWB",
+      "WWWWWWWWWWBBWWWJWWWWWWWBB",
+      "WWWWWWWWWWWWWWWWWWBBWWWWB",
+      "BWWWBBWWWWJWWWWWBBWWWWWBB",
+      "BBWWWWWWWWWWWWWWBBWWWWBBB",
+      "BBBBWWWWWWBBBWWWWWWWBBBBB",
+      "BBBBBBBBBBBBBBBBBBBBBBBBB",
+    ],
+    dock: { col: 0, row: 8 },
+    start: { col: 1, row: 8 },
+    spots: [
+      { name: "Mangrove Maze", col: 5, row: 2, level: "swamp_mangrove" },
+      { name: "Gator Bayou", col: 19, row: 3, level: "swamp_bayou" },
+      { name: "Black Water", col: 11, row: 9, level: "swamp_black" },
+      { name: "Heart of the Swamp", col: 20, row: 11, level: "swamp_heart" },
+    ],
+  },
+};
+
+// The village: you walk around it and step into the shops. Doors are the d blocks in row 4.
+// Walkable: f (grass), p (path), d (door). Everything else is in the way.
+export const TOWN = {
+  map: [
+    "TTfffffffffffffffffffffTT",
+    "fffffffffffffffffffffffff",
+    "f11111f22222f33333f44444f",
+    "f11111f22222f33333f44444f",
+    "fwwdwwfwwdwwfwwdwwfwwdwwf",
+    "fpppppppppppppppppppppppf",
+    "fpppppppppppppppppppppppf",
+    "fffpppppppppppppppppppfff",
+    "ffffffpppppppppppppffffff",
+    "fffffffffffffffffffffffff",
+    "TfffffffffffffffffffffffT",
+    "fffffffffffffffffffffffff",
+    "fTfffffffffffffffffffffTf",
+    "TTfffffffffffffffffffffTT",
+  ],
+  start: { col: 12, row: 8 },
+  doors: [
+    { col: 3, row: 4, store: "bait", name: "Bait Shop" },
+    { col: 9, row: 4, store: "tackle", name: "Tackle Shop" },
+    { col: 15, row: 4, store: "snacks", name: "Snack Shack" },
+    { col: 21, row: 4, store: "market", name: "Fish Market" },
+  ],
 };
 
 // The world map. Add a spot here and it shows up!
@@ -287,12 +417,12 @@ export const WORLD = {
     "ooooofffffooooooooooooooo",
     "ooooooffooooooooooooooooo",
     "ooooooooooooooooooSSSSSoo",
-    "ooooooooooSSSooooSSSSSSSo",
-    "oooooooooSSSSSooooSSSSSoo",
-    "ooooooooooSSSoooooooooooo",
+    "ooBBBzooooSSSooooSSSSSSSo",
+    "oBBBBBBooSSSSSooooSSSSSoo",
+    "ooBBzBooooSSSoooooooooooo",
   ],
   spots: [
-    { id: "shop", name: "The Shop", col: 5, row: 3, icon: "icon_shop", scene: "Shop" },
+    { id: "town", name: "The Village", col: 5, row: 3, icon: "icon_shop", scene: "Town" },
     { id: "dock", name: "The Old Dock", col: 7, row: 8, icon: "icon_dock", scene: "Fish", level: "dock" },
     {
       id: "pond",
@@ -326,6 +456,17 @@ export const WORLD = {
       sail: "ocean",
       locked: "You need a powerboat to go out to sea!",
       unlocked: (save) => save.boat >= 3,
+    },
+    {
+      id: "swamp",
+      name: "The Deep Zone",
+      col: 4,
+      row: 12,
+      icon: "icon_swamp",
+      scene: "Sail",
+      sail: "swamp",
+      locked: "You need an airboat to get through the swamp!",
+      unlocked: (save) => save.boat >= 4,
     },
   ],
 };

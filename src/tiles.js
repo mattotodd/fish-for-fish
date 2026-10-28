@@ -20,7 +20,29 @@ export const TILE_ART = {
   C: ["uuuuuuuu", "uuuuupuu", "upuupppu", "uppupupu", "upppupuu", "uupppppu", "uuupuupu", "uuuuuuuu"],
   X: ["...m....", "...mwww.", "...mwwww", "...mwww.", "...m....", "...m.mm.", "mmmmmmmm", "nnnnnnnn"],
   S: ["tttttttt", "ttttstts", "tttttttt", "tttttttt", "tsttttts", "tttttttt", "tttttstt", "tttttttt"],
+  // the swamp: W is shallow swamp water, V is deep, Z a cypress tree, B muddy bank, J mangrove roots
+  W: ["jjzjjjjz", "jjjjjjjj", "jjjqjjjj", "jjjjjjqj", "jjjjjjjj", "jqjjjjjj", "jjjjjzjj", "jjjjjjjj"],
+  V: ["qqqqqqqq", "qqqjqqqq", "qqqqqqqq", "qqqqqqjq", "qqqqqqqq", "qjqqqqqq", "qqqqqqqq", "qqqqjqqq"],
+  Z: ["..zdzd..", ".zdddzd.", "zdddzddz", ".dzddzd.", "..zmnm..", "..zmnm..", ".zmnnmz.", "zmnnnnmz"],
+  B: ["hhhhhhhh", "hihhhhhh", "hhhhhihh", "hhzhhhhh", "hhhhhhzh", "hihhhhhh", "hhhhihhh", "hhhhhhhh"],
+  J: ["jjdgdgjj", "jdgdgdgj", "jjdgdgjj", "jjjmnjjj", "jmjmnjmj", "jnmmnmnj", "jjnmjmjj", "jjjjjjjj"],
+  // the village: 1-4 are roofs, w is a wall with windows, d is a door, p is the path
+  1: ["gggggggg", "dddddddd", "gggggggg", "dddddddd", "gggggggg", "dddddddd", "gggggggg", "dddddddd"],
+  2: ["bbbbbbbb", "vvvvvvvv", "bbbbbbbb", "vvvvvvvv", "bbbbbbbb", "vvvvvvvv", "bbbbbbbb", "vvvvvvvv"],
+  3: ["rrrrrrrr", "cccccccc", "rrrrrrrr", "cccccccc", "rrrrrrrr", "cccccccc", "rrrrrrrr", "cccccccc"],
+  4: ["yyyyyyyy", "oooooooo", "yyyyyyyy", "oooooooo", "yyyyyyyy", "oooooooo", "yyyyyyyy", "oooooooo"],
+  w: ["tttttttt", "tllltlll", "tllltlll", "tllltlll", "tttttttt", "tttttttt", "tttttttt", "tttttttt"],
+  d: ["tmmmmmmt", "mnnnnnnm", "mnnnnnnm", "mnnnnynm", "mnnnnnnm", "mnnnnnnm", "mnnnnnnm", "mnnnnnnm"],
+  p: ["xxxxxxxx", "xixxxxxx", "xxxxxixx", "xxxxxxxx", "xxixxxxx", "xxxxxxix", "xxxxxxxx", "xixxxxxx"],
+  // inside the shops: F floor, H wall, N shelf, U counter
+  F: ["tttttttt", "tttntttt", "tttttttt", "nnnnnnnn", "tttttttt", "ttttttnt", "tttttttt", "nnnnnnnn"],
+  H: ["mmmmmmmm", "mnmmmmnm", "mmmmmmmm", "mmmmmmmm", "mmmnmmmm", "mnmmmmmn", "mmmmmmmm", "mmmmmmmm"],
+  N: ["tttttttt", "tttttttt", "nnnnnnnn", "nnnnnnnn", "nnnnnnnn", "mmmmmmmm", "mmmmmmmm", "mmmmmmmm"],
+  U: ["tttttttt", "tttttttt", "nnnnnnnn", "nnnnnnnn", "nmnnnnnn", "nnnnnnnn", "mmmmmmmm", "mmmmmmmm"],
 };
+
+// z is a cypress tree standing on mud (Z has sky behind it), for the driving map and the world map.
+TILE_ART.z = TILE_ART.Z.map((row) => row.replace(/\./g, "h"));
 
 export const KID_ART = [
   "....yyyy....",
@@ -40,6 +62,9 @@ export const KID_ART = [
   "...bb..bb...",
   "..mmmm.mmmm.",
 ];
+
+// The people who run the shops: the kid, with a white hat and a green shirt.
+export const KEEPER_ART = KID_ART.map((row) => row.replace(/y/g, "w").replace(/r/g, "g"));
 
 export const ICON_ART = {
   icon_shop: [
@@ -117,7 +142,41 @@ export const ICON_ART = {
     "..wwwwww..",
     ".kkkkkkkk.",
   ],
+  icon_swamp: [
+    "...zdzd....",
+    "..zdddzd...",
+    ".zdddzddz..",
+    "..zdzdzd...",
+    "....mn.....",
+    "....mn.....",
+    "jjjjmnjjjjj",
+    "qjjjjjjjqjj",
+  ],
   icon_spot: ["..yyyy..", ".y....y.", "y..yy..y", "y..yy..y", ".y....y.", "..yyyy.."],
   bobber: ["..rr..", ".rrrr.", "rrrrrr", "wwwwww", ".wwww.", "..ww.."],
   coin: ["..yyyy..", ".yyooyy.", "yyyoyyyy", "yyyoyyyy", "yyyoyyyy", ".yyooyy.", "..yyyy.."],
+};
+
+// Things on the shop shelves. The ones drawn in white are colored with setTint.
+export const ITEM_ART = {
+  item_jar: ["..nnnn..", "..aaaa..", ".alllla.", "alllllla", "alllllla", "alllllla", "alllllla", ".aaaaaa."],
+  item_jar_fill: ["........", "........", "........", "..wwww..", ".wwwwww.", ".wwwwww.", ".wwwwww.", "........"],
+  item_rod: [
+    "..........ww",
+    ".........ww.",
+    "........ww..",
+    ".......ww...",
+    "......ww....",
+    ".....wwk....",
+    "....wwkk....",
+    "...ww.......",
+    "..ww........",
+    ".ww.........",
+  ],
+  snack_apple: ["....g.....", "...gg.....", ".rrrrrrr..", "rrrrrrrrr.", "rrwrrrrrr.", "rrwrrrrrr.", "rrrrrrrrr.", ".rrrrrrr..", "..rr.rr..."],
+  snack_soda: ["..aaaaaa..", ".abbbbbba.", ".abwwwwba.", ".abbbbbba.", ".abrrrrba.", ".abbbbbba.", ".abbbbbba.", "..aaaaaa.."],
+  snack_sandwich: ["..tttttt..", ".tttttttt.", "gggggggggg", "rrrrrrrrrr", "yyyyyyyyyy", "pppppppppp", ".tttttttt.", "..tttttt.."],
+  snack_cookie: ["..nnnnn...", ".nnmnnnn..", "nnnnnnmnn.", "nmnnnnnnn.", "nnnnmnnnn.", ".nnnnnnn..", "..nnnnn..."],
+  snack_hotdog: [".tttttttt.", "tttttttttt", "orrrrrrrro", "tttttttttt", ".tttttttt."],
+  snack_feast: ["..tttttt..", ".tttttttt.", "tttttttttt", "gggggggggg", "nnnnnnnnnn", "yyyyyyyyyy", "rrrrrrrrrr", "tttttttttt", ".tttttttt."],
 };

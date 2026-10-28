@@ -18,6 +18,13 @@ export const PALETTE = {
   a: "#b8c2cc", // silver
   e: "#7a8591", // gray
   t: "#d9b382", // tan
+  h: "#6b6b2a", // mud
+  j: "#3d6b4f", // swamp water
+  q: "#27493a", // deep swamp water
+  z: "#8aa04a", // moss
+  x: "#cbb58a", // cobblestone
+  i: "#9c8760", // cobblestone shadow
+  c: "#a82a2a", // dark red
 };
 
 // Draw a grid onto a canvas and register it as a texture. `scale` = screen pixels per letter.

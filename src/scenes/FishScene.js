@@ -5,6 +5,7 @@ import { RODS, BAITS, BOATS } from "../gear.js";
 import { save, persist } from "../save.js";
 import { sfx } from "../sound.js";
 import { hint } from "../gamepad.js";
+import { SNACKS, boost } from "../snacks.js";
 import { drawTiles, text, money, bucketValue } from "../draw.js";
 
 const CHARGE_TIME = 1.2; // seconds to fully charge a cast
@@ -80,6 +81,8 @@ export class FishScene extends Scene {
     kb.on("keyup-SPACE", () => this.onSpaceUp());
     kb.on("keydown-DOWN", (e) => !e.repeat && this.onDown());
     kb.on("keydown-UP", (e) => !e.repeat && this.onUp());
+    kb.on("keydown-RIGHT", (e) => !e.repeat && this.onRight());
+    kb.on("keydown-E", (e) => !e.repeat && this.onEat());
     kb.on("keydown-ESC", () => this.state === "idle" && this.scene.start(this.back.scene, this.back.data));
   }
 
@@ -87,7 +90,16 @@ export class FishScene extends Scene {
 
   setState(state) {
     this.state = state;
-    this.hint.setText(hint(HINTS[state] ?? ""));
+    this.hint.setText(hint(state === "idle" ? this.idleHint() : HINTS[state] ?? ""));
+  }
+
+  idleHint() {
+    if (!this.ownedSnacks().length) return HINTS.idle;
+    return "HOLD SPACE to cast   UP: change bait   RIGHT: pick snack   E: eat   ESC: back";
+  }
+
+  ownedSnacks() {
+    return Object.keys(SNACKS).filter((id) => save.snacks[id] > 0);
   }
 
   say(str, ms = 2200) {
@@ -99,9 +111,14 @@ export class FishScene extends Scene {
   refreshHud() {
     const bait = BAITS[save.selectedBait];
     const left = save.selectedBait === "bread" ? "unlimited" : "x" + save.bait[save.selectedBait];
+    const boosts = Object.entries(save.buffs).map(([id, casts]) => `${SNACKS[id].name} ${casts}`);
+    const bag = this.ownedSnacks();
+    const pick = bag.includes(save.selectedSnack) ? save.selectedSnack : bag[0];
     this.hud.setText(
       `${money(save.money)}\nBucket: ${save.fish.length} fish (${money(bucketValue(save))})\n` +
-        `Rod: ${this.rod.name}\nBait: ${bait.name} (${left})`
+        `Rod: ${this.rod.name}\nBait: ${bait.name} (${left})` +
+        (pick ? `\nSnack: ${SNACKS[pick].name} x${save.snacks[pick]}` : "") +
+        (boosts.length ? `\nBoosts: ${boosts.join(", ")}` : "")
     );
   }
 
@@ -174,6 +191,42 @@ export class FishScene extends Scene {
     this.refreshHud();
   }
 
+  // RIGHT picks which snack you would eat next.
+  onRight() {
+    if (this.state !== "idle") return;
+    const owned = this.ownedSnacks();
+    if (!owned.length) return;
+    save.selectedSnack = owned[(owned.indexOf(save.selectedSnack) + 1) % owned.length];
+    persist();
+    sfx.select();
+    this.refreshHud();
+  }
+
+  // E eats the snack you picked: its boost lasts for the next few casts.
+  onEat() {
+    if (this.state !== "idle") return;
+    const owned = this.ownedSnacks();
+    if (!owned.length) {
+      sfx.no();
+      this.say("No snacks! Buy some at the Snack Shack.");
+      return;
+    }
+    const id = owned.includes(save.selectedSnack) ? save.selectedSnack : owned[0];
+    const snack = SNACKS[id];
+    if (--save.snacks[id] <= 0) delete save.snacks[id];
+    save.buffs[id] = snack.casts;
+    save.selectedSnack = this.ownedSnacks().includes(id) ? id : this.ownedSnacks()[0] ?? null;
+    persist();
+    sfx.eat();
+    this.say(`Yum! ${snack.blurb}!`);
+    // The snack pops up over the kid's head while they munch.
+    const food = this.add.image(this.kid.x, this.kid.y - 44, snack.icon).setDepth(9);
+    this.tweens.add({ targets: food, y: this.kid.y - 74, alpha: 0, duration: 1000, onComplete: () => food.destroy() });
+    this.tweens.add({ targets: this.kid, scaleY: 0.9, duration: 120, yoyo: true, repeat: 2 });
+    this.refreshHud();
+    this.hint.setText(hint(this.idleHint()));
+  }
+
   // ---- the fishing steps ----
 
   landingX(power) {
@@ -182,6 +235,16 @@ export class FishScene extends Scene {
 
   startCast(power) {
     if (save.selectedBait !== "bread") save.bait[save.selectedBait]--;
+    // Snacks help for this whole cast, then use up one of their casts.
+    this.boosts = { bite: boost(save.buffs, "bite"), strength: boost(save.buffs, "strength"), reel: boost(save.buffs, "reel"), luck: boost(save.buffs, "luck") };
+    const wornOff = [];
+    for (const id of Object.keys(save.buffs)) {
+      if (--save.buffs[id] <= 0) {
+        delete save.buffs[id];
+        wornOff.push(SNACKS[id].name);
+      }
+    }
+    if (wornOff.length) this.say(`Your ${wornOff.join(" and ")} wore off.`);
     persist();
     this.refreshHud();
     this.castBait = BAITS[save.selectedBait];
@@ -200,8 +263,12 @@ export class FishScene extends Scene {
     const pool = this.level.fish
       .map((id) => ({ id, fish: FISH[id] }))
       .filter(({ fish }) => dist >= fish.dist[0] && dist <= fish.dist[1])
-      .map(({ id, fish }) => ({ id, weight: fish.rarity * (fish.likes.includes(this.castBaitId) ? 3 : 1) * (fish.rarity <= 1 ? this.castBait.luck ?? 1 : 1) }));
-    if (!pool.length) return this.level.fish[0]; // nothing lives this far out, so something boring bites
+      .map(({ id, fish }) => ({ id, weight: fish.rarity * (fish.likes.includes(this.castBaitId) ? 3 : 1) * (fish.rarity <= 1 ? (this.castBait.luck ?? 1) * this.boosts.luck : 1) }));
+    if (!pool.length) {
+      // Nothing lives exactly this far out, so the fish whose water is closest bites.
+      const away = (id) => Math.max(FISH[id].dist[0] - dist, dist - FISH[id].dist[1], 0);
+      return this.level.fish.reduce((best, id) => (away(id) < away(best) ? id : best));
+    }
     let roll = Math.random() * pool.reduce((sum, p) => sum + p.weight, 0);
     for (const p of pool) {
       roll -= p.weight;
@@ -211,7 +278,7 @@ export class FishScene extends Scene {
   }
 
   startWait() {
-    this.wait = rand(2.5, 6) / this.castBait.biteSpeed;
+    this.wait = rand(2.5, 6) / (this.castBait.biteSpeed * this.boosts.bite);
     this.setState("waiting");
   }
 
@@ -402,8 +469,8 @@ export class FishScene extends Scene {
 
     const reeling = this.keys.left.isDown;
     if (reeling) {
-      r.d -= this.rod.reel * (r.pulling ? 0.3 : 1) * dt;
-      r.tension += (r.pulling ? (0.9 * r.fish.fight) / this.rod.strength : 0.15) * dt;
+      r.d -= this.rod.reel * this.boosts.reel * (r.pulling ? 0.3 : 1) * dt;
+      r.tension += (r.pulling ? (0.9 * r.fish.fight) / (this.rod.strength * this.boosts.strength) : 0.15) * dt;
       r.tick -= dt;
       if (r.tick <= 0) {
         sfx.reel();

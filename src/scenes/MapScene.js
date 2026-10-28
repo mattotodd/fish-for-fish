@@ -5,7 +5,7 @@ import { save } from "../save.js";
 import { sfx } from "../sound.js";
 import { hint } from "../gamepad.js";
 
-let selected = 1; // remember which spot you were on
+let selected = null; // remember which spot you were on (the first time, the dock)
 
 export class MapScene extends Scene {
   constructor() {
@@ -41,7 +41,7 @@ export class MapScene extends Scene {
       .setDepth(5);
 
     this.hud.setText(`${money(save.money)}\nBucket: ${save.fish.length} fish (${money(bucketValue(save))})\nTrophies: ${save.trophies.length}`);
-    this.moveTo(selected);
+    this.moveTo(selected ?? this.spots.findIndex((spot) => spot.id === "dock"));
 
     const kb = this.input.keyboard;
     kb.on("keydown-LEFT", () => this.moveTo(selected - 1));

@@ -64,6 +64,11 @@ export const sfx = {
     tone(988, 0.08, "square", 0.06);
     tone(1319, 0.2, "square", 0.06, 0, 0.08);
   },
+  eat: () => {
+    tone(420, 0.07, "square", 0.05);
+    tone(360, 0.07, "square", 0.05, 0, 0.1);
+    tone(520, 0.12, "triangle", 0.06, 0, 0.22);
+  },
   select: () => tone(600, 0.05, "square", 0.05),
   no: () => tone(150, 0.2, "square", 0.07),
 };

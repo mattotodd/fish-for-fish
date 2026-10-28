@@ -3,7 +3,7 @@
 //
 // Standard layout (Xbox style, and 8BitDo in its Switch/Xbox modes):
 //   D-pad or left stick  arrow keys     A (bottom button)  SPACE     B (right button)  ESC
-//   Y (top button) or Start  M          X (left button)    N
+//   Y (top button) or Start  M          X (left button)  E (eat a snack)    Select  N (new game)
 
 const KEYS = {
   up: { key: "ArrowUp", code: "ArrowUp", keyCode: 38 },
@@ -14,16 +14,17 @@ const KEYS = {
   esc: { key: "Escape", code: "Escape", keyCode: 27 },
   m: { key: "m", code: "KeyM", keyCode: 77 },
   n: { key: "n", code: "KeyN", keyCode: 78 },
+  e: { key: "e", code: "KeyE", keyCode: 69 },
 };
 
 // Which controller buttons press which key. Change these to remap.
-const BUTTONS = { 0: "space", 1: "esc", 2: "n", 3: "m", 9: "m", 12: "up", 13: "down", 14: "left", 15: "right" };
+const BUTTONS = { 0: "space", 1: "esc", 2: "e", 3: "m", 8: "n", 9: "m", 12: "up", 13: "down", 14: "left", 15: "right" };
 const STICK_DEADZONE = 0.5;
 const REPEAT_DELAY = 400; // ms before a held direction starts repeating, like a keyboard
 const REPEAT_EVERY = 120;
 
 // Words in on-screen hints, as they should read when you are using a controller.
-const PAD_WORDS = { SPACE: "A", ESC: "B", ARROWS: "D-PAD", "M =": "Y =", "N =": "X =" };
+const PAD_WORDS = { SPACE: "A", ESC: "B", ARROWS: "D-PAD", E: "X", "M =": "Y =", "N =": "SELECT =" };
 
 export const input = { pad: false }; // true once a controller has been used more recently than the keyboard
 
@@ -31,8 +32,8 @@ export const input = { pad: false }; // true once a controller has been used mor
 export function hint(message) {
   if (!input.pad) return message;
   return message
-    .replace(/\b(SPACE|ESC|ARROWS|M =|N =)(?=\s|:|!|$)/g, (word) => PAD_WORDS[word])
-    .replace("Press N", "Press X");
+    .replace(/\b(SPACE|ESC|ARROWS|E|M =|N =)(?=\s|:|!|$)/g, (word) => PAD_WORDS[word])
+    .replace("Press N", "Press SELECT");
 }
 
 const pressed = new Map(); // key name -> when it should repeat next (ms), for keys the controller is holding
