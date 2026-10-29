@@ -1,5 +1,10 @@
+import { ISLAND_TILES, ISLAND_ICONS } from "./islands.js";
+import { FAR_TILES, FAR_ICONS } from "./farseas.js";
+
 // Pixel art for the level blocks and little icons. 8 letters wide, drawn 4x bigger = 32px.
 export const TILE_ART = {
+  ...ISLAND_TILES,
+  ...FAR_TILES,
   c: ["........", "..wwww..", "wwwwwwww", "wwwwwwww", "wwwwwwww", "wwwwwwww", "........", "........"],
   L: ["gggdgggg", "gdgggggg", "ggggdggg", "dggggggd", "gggdgggg", "gdggggdg", "ggggdggg", "dgggggdg"],
   Y: ["..mnnm..", "..mnnm..", "..nnmm..", "..mnnm..", "..mnnm..", "..nnmm..", "..mnnm..", "..mnnm.."],
@@ -76,6 +81,8 @@ export const KID_ART = [
 export const KEEPER_ART = KID_ART.map((row) => row.replace(/y/g, "w").replace(/r/g, "g"));
 
 export const ICON_ART = {
+  ...ISLAND_ICONS,
+  ...FAR_ICONS,
   icon_shop: [
     "....rrrr....",
     "..rrrrrrrr..",

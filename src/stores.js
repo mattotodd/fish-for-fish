@@ -84,8 +84,9 @@ function tackleItems() {
     price: money(boat.price),
     detail: `Top speed ${boat.speed}.  Sail to new waters!`,
     boat: i,
-    x: shelfX(i, BOATS.length),
-    y: 250,
+    // the boats sit on the floor in rows of seven, so there is room to walk up to each one
+    x: 100 + (i % 7) * 100,
+    y: 165 + Math.floor(i / 7) * 72,
     state: save.boat > i ? "owned" : "ok",
     buy: () => {
       if (save.boat > i) return `You already have the ${boat.name}.`;

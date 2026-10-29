@@ -22,6 +22,17 @@ export const SNACKS = {
     icon: "snack_feast",
     blurb: "A little of everything, for longer",
   },
+  dragonfeast: {
+    name: "Dragon Feast",
+    price: 5000,
+    casts: 25,
+    bite: 2,
+    strength: 2,
+    reel: 1.5,
+    luck: 3,
+    icon: "snack_feast",
+    blurb: "The best of everything, for 25 casts",
+  },
 };
 
 // Everything your snacks are doing for you right now, multiplied together.

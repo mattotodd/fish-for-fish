@@ -5,8 +5,10 @@ import { drawTiles, text, money, bucketValue } from "../draw.js";
 import { save } from "../save.js";
 import { sfx } from "../sound.js";
 import { hint } from "../gamepad.js";
+import { ISLAND_WATER } from "../islands.js";
+import { FAR_WATER } from "../farseas.js";
 
-const WATER = "~oOWVQI"; // blocks you can drive on. Everything else (land, rocks) is in the way.
+const WATER = "~oOWVQI" + ISLAND_WATER + FAR_WATER; // blocks you can drive on. Everything else (land, rocks) is in the way.
 const HALF = 10; // half the boat's size, for bumping into things
 const NEAR = 40; // how close to a fishing spot you need to be
 

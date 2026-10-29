@@ -22,6 +22,7 @@ so new scenes work with a controller without any extra code.
 | `src/gear.js` | Rods, bait and boats, with prices and stats |
 | `src/snacks.js` | Snacks from the Snack Shack and the boost each one gives |
 | `src/stores.js` | What each shop sells and where it sits on the shelf |
+| `src/islands.js` | The fifteen newest islands: their boats, fish, bosses, maps and tiles |
 | `src/levels.js` | Level maps (one letter = one 32px block) and the world map |
 | `src/tiles.js` | Pixel art for blocks, the kid, and map icons |
 | `src/art.js` | The color palette (letter -> color) |
@@ -36,6 +37,23 @@ so new scenes work with a controller without any extra code.
 | The Deep Zone (swamp) | Airboat | Mangrove Maze, Gator Bayou, Black Water, Heart of the Swamp |
 | The Sunken City | Submarine | Sunken Gate, Drowned Temple, Treasure Vault, The Abyss |
 | Volcano Island | Lava Hoverboat | Ember Shore, Cinder Cove, Magma Falls, Crater Heart |
+| Frozen Arctic | Ice Breaker | Ice Hole, Penguin Rock, Frozen Fjord, Whale Bay |
+| Candy Island | Candy Cruiser | Syrup Shore, Gumdrop Bay, Chocolate River, Licorice Lagoon |
+| Dinosaur Jungle | Jungle Gunboat | Fern Creek, Tar Pit, Volcano Lake, Raptor Rapids |
+| Space Ocean | Star Skiff | Moon Pond, Comet Tail, Nebula Reef, Black Hole |
+| Cloud Kingdom | Cloud Glider | Cotton Shore, Rain Pool, Thunder Gap, Storm Peak |
+| Haunted Island | Ghost Ship | Foggy Dock, Graveyard Pond, Spooky Swamp, Haunted Mansion |
+| Mushroom Forest | Spore Hopper | Toadstool Shore, Glowing Glade, Spore Lake, Giant Cap Cove |
+| Pirate Cove | Pirate Galleon | Skull Beach, Buried Treasure, Shipwreck Bay, Davy Jones Deep |
+| Crystal Caves | Crystal Sled | Glimmer Gate, Amethyst Pool, Diamond Hall, Heart Crystal |
+| Robot City | Rocket Boat | Scrap Yard, Oil Pool, Circuit Canal, Mecha Core |
+| Desert Oasis | Sand Skiff | Palm Pool, Camel Crossing, Pyramid Pond, Sphinx Spring |
+| Castle Kingdom | Royal Barge | Moat Bridge, Dungeon Drain, Throne Pond, Tower Top |
+| Toy Land | Toy Tugboat | Block Beach, Bathtub Bay, Crayon Canal, Teddy Tower |
+| Golden Atlantis | Golden Yacht | Gold Gate, Coin Cove, Trident Temple, Treasure Throne |
+| Neon Arcade | Arcade Jetski | Pixel Pier, Joystick Jetty, High Score Harbor, Boss Level |
+
+The world map is big and scrolls (press the arrow keys to move between places). Past the Arcade Jetski there are **20 more islands** out in the open water, in `src/farseas.js`: Snow Peak, Bubblegum Bay, Rainbow Road, Lightning Isle, Bone Island, Jelly Sea, Honey Hive, Kelp Forest, Treehouse Village, Rocket Launch, Steam Factory, Music Island, Pizza Planet, Ancient Temple, Dragon's Den, Alien Mothership, Time Warp, Moon Base, Sun Palace and The Final Island. The first needs the Arcade Jetski; each one after that opens when you catch the boss of the island before it.
 
 ### The Village
 You walk around the village and step into a shop (press SPACE at its door). Inside, walk up to something and press SPACE to buy it.

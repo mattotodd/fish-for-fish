@@ -6,7 +6,12 @@
 //   fight   how hard it pulls (0.3 = gentle, 1.5 = monster)
 //   likes   baits that make it extra hungry
 // Fish face left. Letters are colors, see art.js.
+import { ISLAND_FISH } from "./islands.js";
+import { FAR_FISH } from "./farseas.js";
+
 export const FISH = {
+  ...ISLAND_FISH,
+  ...FAR_FISH,
   minnow: {
     name: "Minnow",
     price: 2,
@@ -247,7 +252,7 @@ export const FISH = {
     dist: [330, 400],
     rarity: 0.25,
     fight: 2.2,
-    likes: ["glowbug", "monsterbait"],
+    likes: ["glowbug", "monsterbait", "legendbait"],
     legendary: true,
     scale: 3,
     art: [
@@ -402,7 +407,7 @@ export const FISH = {
     dist: [450, 480],
     rarity: 0.2,
     fight: 3.4,
-    likes: ["squid", "monsterbait"],
+    likes: ["squid", "monsterbait", "legendbait"],
     legendary: true,
     scale: 3,
     art: [
@@ -590,7 +595,7 @@ export const FISH = {
     dist: [440, 480],
     rarity: 0.15,
     fight: 4.0,
-    likes: ["chicken", "glowbug", "monsterbait"],
+    likes: ["chicken", "glowbug", "monsterbait", "legendbait"],
     legendary: true,
     scale: 3,
     art: [
@@ -613,7 +618,7 @@ export const FISH = {
     dist: [455, 480],
     rarity: 0.1,
     fight: 4.8,
-    likes: ["chicken", "squid", "monsterbait"],
+    likes: ["chicken", "squid", "monsterbait", "legendbait"],
     legendary: true,
     bloop: true, // its bite makes a deep BLOOP and shakes the screen
     scale: 40, // twice as wide as the whole screen
@@ -828,7 +833,7 @@ export const FISH = {
     dist: [450, 480],
     rarity: 0.12,
     fight: 5.0,
-    likes: ["squid", "monsterbait"],
+    likes: ["squid", "monsterbait", "legendbait"],
     legendary: true,
     bloop: true, // its bite makes a deep BLOOP and shakes the screen
     scale: 14,
@@ -1042,9 +1047,9 @@ export const FISH = {
     price: 50000,
     weight: [60000, 200000],
     dist: [455, 480],
-    rarity: 0.1,
+    rarity: 0.018,
     fight: 5.5,
-    likes: ["chicken", "monsterbait"],
+    likes: ["chicken", "monsterbait", "legendbait"],
     legendary: true,
     bloop: true, // its bite makes a deep BLOOP and shakes the screen
     scale: 20,
@@ -1090,6 +1095,29 @@ export const FISH = {
       "........................cccccoyoooyoooyoooyoooyo",
       "........................kkkkk.kkkkk...o...kkkkk",
       "........................kkkkk.kkkkk.......kkkkk",
+    ],
+  },
+  // The best fish in the game: a rainbow whale made of diamonds.
+  diamondwhale: {
+    name: "Diamond Whale",
+    price: 5000000,
+    weight: [900, 1500],
+    dist: [300, 480],
+    rarity: 0.08,
+    fight: 3.5,
+    likes: ["glowbug", "lure", "squid", "legendbait"],
+    legendary: true,
+    scale: 12,
+    art: [
+      "......................rr..........",
+      "....lllllllllllll...rrpp..........",
+      "..llllllllllllllllllrppp..........",
+      ".lkllwwlllllllllllllppyyy.........",
+      "llllwwwwlllbbbbbllllpyyyyy........",
+      "llllllllllbbbbbbbblllgggg.........",
+      "llwwwwwwwwwwwwwwwwwwwggg..........",
+      "..wwwwwwwwwwwwwwwwwwwwg...........",
+      "....wwwwwwwwwwwwwwww..............",
     ],
   },
 };

@@ -1,3 +1,5 @@
+import { ISLAND_BOATS } from "./islands.js";
+
 // Things you can buy at the shop.
 //   strength  how much pull the line takes before it snaps
 //   reel      how fast you reel
@@ -16,6 +18,7 @@ export const RODS = [
   { name: "Big Game Rod", price: 3500, strength: 3.6, reel: 0.56, range: 440, len: 108, color: 0xe8883a },
   { name: "Golden Rod", price: 7500, strength: 4.4, reel: 0.64, range: 440, len: 114, color: 0xf2c94c },
   { name: "Rainbow Rod", price: 15000, strength: 5.4, reel: 0.78, range: 440, len: 120, color: "rainbow" },
+  { name: "Diamond Rod", price: 250000, strength: 9, reel: 1.2, range: 470, len: 128, color: 0x7ff0ff },
 ];
 
 //   biteSpeed  bigger = fish find it faster
@@ -36,6 +39,7 @@ export const BAITS = {
   chicken: { name: "Raw Chicken", price: 120, pack: 10, biteSpeed: 3.4, color: 0xe0b070 },
   lure: { name: "Lucky Lure", price: 300, pack: 5, biteSpeed: 4, luck: 3, color: 0xff4040 },
   monsterbait: { name: "Monster Bait", price: 20000, pack: 3, biteSpeed: 5, luck: 10, favorite: 60, color: 0xff3fb0 },
+  legendbait: { name: "Legend Bait", price: 100000, pack: 3, biteSpeed: 8, luck: 25, favorite: 100, color: 0xffd700 },
 };
 
 //   speed     how fast you drive (pixels per second)
@@ -178,4 +182,5 @@ export const BOATS = [
       "..rrrrrrrrrrrr....",
     ],
   },
+  ...ISLAND_BOATS,
 ];

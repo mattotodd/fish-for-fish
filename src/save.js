@@ -8,7 +8,7 @@ const NEW_GAME = {
   money: 0,
   rod: 0, // index into RODS
   boat: 0, // 0 = no boat, otherwise how many boats you have bought (index into BOATS + 1)
-  bait: { bread: 0, corn: 0, worm: 0, cricket: 0, shrimp: 0, livebait: 0, glowbug: 0, squid: 0, chicken: 0, lure: 0, monsterbait: 0 }, // bread is unlimited
+  bait: { bread: 0, corn: 0, worm: 0, cricket: 0, shrimp: 0, livebait: 0, glowbug: 0, squid: 0, chicken: 0, lure: 0, monsterbait: 0, legendbait: 0 }, // bread is unlimited
   selectedBait: "bread",
   snacks: {}, // snacks in your bag: { snackId: how many }
   selectedSnack: null,

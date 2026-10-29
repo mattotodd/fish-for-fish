@@ -1,3 +1,6 @@
+import { islandLevels, ISLAND_SAILS, ISLAND_WORLD_SPOTS } from "./islands.js";
+import { farLevels, FAR_SAILS, FAR_WORLD_SPOTS } from "./farseas.js";
+
 // Levels are text maps: each character is one 32-pixel block.
 //   .  sky     c  cloud    L  leaves   Y  tree trunk   T  pine tree   M  mountain
 //   G  grass   D  dirt     =  dock     |  dock post    R  reeds
@@ -41,6 +44,8 @@ const DEEP = ["~".repeat(25), ...Array(5).fill("O".repeat(25))];
 const BOAT_VIEW = { onBoat: true, kid: { x: 274, y: 250 }, dockEnd: 300, waterTop: 256 };
 
 export const LEVELS = {
+  ...islandLevels(BOAT_VIEW),
+  ...farLevels(BOAT_VIEW),
   dock: {
     name: "The Old Dock",
     sky: 0x8fd3ff,
@@ -334,7 +339,7 @@ export const LEVELS = {
       "OOOOOOOOOOOOOOOOOOOOOOOOO",
       "OOkOOOOOaOOOOOOOOaOOOOOkO",
     ],
-    fish: ["anglerfish", "mantaray", "ghostshark", "goldenidol", "kraken"],
+    fish: ["anglerfish", "mantaray", "ghostshark", "goldenidol", "diamondwhale", "kraken"],
   },
   // ---- Volcano Island (you need the Lava Hoverboat) ----
   volcano_shore: {
@@ -403,13 +408,15 @@ export const LEVELS = {
       "IIIIIIIIIIIIIIIIIIIIIIIII",
       "IIIIIIIIIIIIIIIIIIIIIIIII",
     ],
-    fish: ["obsidianpike","flameray","moltenturtle","phoenixfish","lavadragon"],
+    fish: ["obsidianpike","flameray","moltenturtle","phoenixfish","diamondwhale","lavadragon"],
   },
 };
 
 // Driving maps. You steer the boat around on the water (o) and can't cross land (f) or rocks (K).
 // Each spot is a place to stop and fish: give it a col, a row and one of the LEVELS above.
 export const SAILS = {
+  ...ISLAND_SAILS,
+  ...FAR_SAILS,
   pond: {
     name: "Sunny Pond",
     map: [
@@ -688,5 +695,16 @@ export const WORLD = {
       locked: "You need a lava hoverboat to cross the lava!",
       unlocked: (save) => save.boat >= 6,
     },
+    ...ISLAND_WORLD_SPOTS,
+    ...FAR_WORLD_SPOTS,
   ],
 };
+
+// The world map is bigger than the screen (50 x 28 blocks) and scrolls. The original islands sit in the top left corner;
+// the Far Seas islands (src/farseas.js) are out in the open water, each on a little sand bar.
+WORLD.map = [...WORLD.map.map((row) => row.padEnd(50, "o")), ...Array(14).fill("o".repeat(50))];
+for (const spot of FAR_WORLD_SPOTS) {
+  const row = WORLD.map[spot.row].split("");
+  for (let dx = -1; dx <= 1; dx++) row[spot.col + dx] = "S";
+  WORLD.map[spot.row] = row.join("");
+}
